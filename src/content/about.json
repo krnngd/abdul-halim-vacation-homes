@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "About Us | Abdul Halim Vacation Homes",
+    "description": "Abdul Halim Vacation Homes Rental L.L.C is a registered and licensed real estate entity in Dubai that administers and leases residential properties with its associated companies."
+  },
+  "hero": {
+    "eyebrow": "About Us",
+    "title": "A registered and licensed real estate entity in Dubai",
+    "intro": "Abdul Halim Vacation Homes Rental L.L.C is an officially registered and licensed real estate entity operating in the Emirate of Dubai. Together with its associated companies, it administers and leases residential properties, from individual holiday homes to multi-unit buildings.",
+    "image": "about-satwa-building.png",
+    "imageAlt": "Multi-unit residential building, Al Satwa",
+    "caption": "Multi-unit residential building, Al Satwa"
+  },
+  "structure": {
+    "eyebrow": "Business structure",
+    "title": "Business structure",
+    "items": [
+      { "label": "Legal form", "value": "Limited Liability Company (LLC)" },
+      { "label": "Regulator", "value": "Department of Economy and Tourism, Dubai" },
+      { "label": "Presence", "value": "Dubai, United Arab Emirates" }
+    ]
+  },
+  "group": {
+    "eyebrow": "Group structure",
+    "title": "One primary entity and two associated companies",
+    "primaryLabel": "Primary entity",
+    "associatedLabel": "Associated company"
+  },
+  "purpose": {
+    "eyebrow": "Our purpose",
+    "text": "Reliable, compliant vacation homes for Dubai's hospitality sector."
+  },
+  "strategy": {
+    "eyebrow": "Strategic direction",
+    "title": "Strategic direction",
+    "items": [
+      "Sustainable asset maintenance",
+      "Strict compliance with the government regulatory framework",
+      "Efficient, well-run portfolio operations"
+    ]
+  },
+  "strengths": {
+    "eyebrow": "Corporate strengths",
+    "title": "Corporate strengths",
+    "items": [
+      { "title": "Official registration", "body": "Fully licensed to operate in Dubai. Licence details are on our [Standards & Compliance](/standards/) page." },
+      { "title": "Active portfolio", "body": "Operating physical residential assets across the city." },
+      { "title": "Direct oversight", "body": "Dedicated partner management, ensuring accountability." }
+    ]
+  },
+  "leadership": {
+    "eyebrow": "Leadership",
+    "text": "Our registered partners steer portfolio operations directly. Every property is overseen by a partner.",
+    "link": { "label": "Meet our partners", "href": "/leadership/" }
+  }
+}

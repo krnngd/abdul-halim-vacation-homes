@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "title": "Abdul Halim Vacation Homes | Licensed residential property operator in Dubai",
+    "description": "Abdul Halim Vacation Homes Rental L.L.C leases, manages and maintains residential buildings and holiday homes in Dubai on behalf of property owners."
+  },
+  "hero": {
+    "eyebrow": "Abdul Halim Vacation Homes Rental L.L.C",
+    "headline": "Licensed operators of residential property in Dubai",
+    "sub": "We lease, manage and maintain residential buildings and holiday homes on behalf of property owners, with compliance, upkeep and accountability handled directly by our partners.",
+    "primary": {
+      "label": "Partner with us",
+      "href": "/partner-with-us/"
+    },
+    "secondary": {
+      "label": "View our portfolio",
+      "href": "/portfolio/"
+    },
+    "image": "hero-satwa-corner-building.png",
+    "imageAlt": "Mixed-use residential building, Al Satwa",
+    "caption": "Mixed-use residential building, Al Satwa",
+    "scrollHint": "Scroll"
+  },
+  "credentials": {
+    "title": "Credentials",
+    "items": [
+      {
+        "icon": "buildings-2-linear",
+        "text": "Dubai-registered Limited Liability Company"
+      },
+      {
+        "icon": "shield-check-linear",
+        "text": "Regulated by the Department of Economy and Tourism"
+      },
+      {
+        "icon": "city-linear",
+        "text": "[X] buildings under management"
+      },
+      {
+        "icon": "calendar-mark-linear",
+        "text": "Operating since [Year]"
+      }
+    ]
+  },
+  "whatWeDo": {
+    "eyebrow": "What we do",
+    "title": "Leasing, management and maintenance of residential property",
+    "items": [
+      {
+        "icon": "key-minimalistic-2-linear",
+        "title": "Vacation Rentals",
+        "body": "Licensed operation of short-term holiday homes across Dubai."
+      },
+      {
+        "icon": "home-2-linear",
+        "title": "Residential Leasing",
+        "body": "Compliant guest accommodation and tenant relations."
+      },
+      {
+        "icon": "folder-with-files-linear",
+        "title": "Portfolio Administration",
+        "body": "Active management of multiple associated property brands."
+      }
+    ],
+    "link": {
+      "label": "Services for property owners",
+      "href": "/services/"
+    }
+  },
+  "statement": {
+    "label": "Direct oversight",
+    "text": "Our registered partners steer portfolio operations directly. Every property is overseen by a partner."
+  },
+  "values": {
+    "eyebrow": "How we look after a property",
+    "title": "Integrity, stewardship and accountability",
+    "items": [
+      {
+        "title": "Integrity",
+        "body": "Compliant and transparent dealings with owners, guests and authorities."
+      },
+      {
+        "title": "Stewardship",
+        "body": "Maintaining each asset's safety, condition and value."
+      },
+      {
+        "title": "Accountability",
+        "body": "Strict adherence to Department of Economy and Tourism regulations."
+      }
+    ],
+    "link": {
+      "label": "Standards and compliance",
+      "href": "/standards/"
+    }
+  },
+  "portfolio": {
+    "eyebrow": "Portfolio",
+    "title": "Active residential properties under our operation across Dubai",
+    "items": [
+      {
+        "image": "satwa-mixed-use-residential.png",
+        "alt": "Mixed-use residential building, Al Satwa",
+        "type": "Mixed-use residential",
+        "area": "Al Satwa",
+        "areaId": "al-satwa"
+      },
+      {
+        "image": "jafiliya-independent-villa.jpg",
+        "alt": "Independent villa, Al Jafiliya",
+        "type": "Independent villa",
+        "area": "Al Jafiliya",
+        "areaId": "al-jafiliya"
+      },
+      {
+        "image": "naif-deira-01.jpg",
+        "alt": "Multi-tenant residential building, Naif, Deira",
+        "type": "Multi-tenant residential",
+        "area": "Naif, Deira",
+        "areaId": "naif-deira"
+      },
+      {
+        "image": "al-badaa-01.jpg",
+        "alt": "Residential building with ground-floor retail, Al Bada'a",
+        "type": "Residential with ground-floor retail",
+        "area": "Al Bada'a",
+        "areaId": "al-badaa"
+      },
+      {
+        "image": "satwa-central-02.jpg",
+        "alt": "Multi-unit residential building, Al Satwa",
+        "type": "Multi-unit residential",
+        "area": "Al Satwa",
+        "areaId": "al-satwa"
+      }
+    ],
+    "link": {
+      "label": "View our portfolio",
+      "href": "/portfolio/"
+    },
+    "scrollerLabel": "Portfolio preview images"
+  },
+  "group": {
+    "eyebrow": "Group of companies",
+    "title": "One primary operating entity and two associated companies",
+    "link": {
+      "label": "About the group",
+      "href": "/about/"
+    }
+  }
+}

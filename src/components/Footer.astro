@@ -1,0 +1,258 @@
+---
+import { url } from '../lib/url';
+import site from '../content/site.json';
+import Rich from './Rich.astro';
+import Icon from './Icon.astro';
+
+const { brand, offices, licences, footer } = site;
+---
+
+<footer class="site-footer on-dark" aria-labelledby="footer-title">
+  <div class="pattern pattern-mashrabiya footer-pattern" aria-hidden="true"></div>
+
+  <div class="container-x footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h2 id="footer-title" class="footer-wordmark">
+          <span class="footer-mark ornament-star" aria-hidden="true"></span>
+          <span>{brand.name}</span>
+        </h2>
+        <p class="footer-regulator">{footer.regulator}</p>
+      </div>
+      <a class="arrow-link footer-top-link" href="#top" data-back-to-top>
+        {footer.backToTop}
+        <span class="arrow-dot" aria-hidden="true"><Icon name="arrow-right-linear" /></span>
+      </a>
+    </div>
+
+    <div class="divider-star footer-divider" aria-hidden="true"><span class="ornament-star"></span></div>
+
+    <div class="footer-grid">
+      <div class="footer-group">
+        <h3 id="footer-offices" class="footer-heading">{footer.officesTitle}</h3>
+        <ul class="footer-offices">
+          {offices.map((office) => (
+            <li>
+              <p class="footer-entity">{office.entity}</p>
+              <address>{office.address}</address>
+              <a class="footer-phone" href={office.phoneHref}>
+                <Icon name="phone-linear" />
+                {office.phone}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-group">
+        <h3 id="footer-licences" class="footer-heading">{footer.licencesTitle}</h3>
+        <dl class="footer-licences">
+          {licences.map((licence) => (
+            <div>
+              <dt>{licence.label}</dt>
+              <dd><Rich text={licence.value} /></dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <nav aria-labelledby="footer-links">
+        <h3 id="footer-links" class="footer-heading">{footer.linksTitle}</h3>
+        <ul class="footer-links">
+          {footer.links.map((link) => (
+            <li><a href={url(link.href)}>{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <Rich as="p" text={footer.copyright} />
+      <ul class="footer-legal">
+        {footer.legal.map((link) => (
+          <li><a href={url(link.href)}>{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-gulf-ink);
+    padding-block: clamp(4rem, 3rem + 5vw, 7rem) 2rem;
+  }
+
+  .footer-pattern {
+    --pattern-color: var(--color-white);
+    --pattern-opacity: 0.05;
+    --pattern-size: 30px;
+    --pattern-fade: linear-gradient(180deg, #000, transparent 75%);
+  }
+
+  .footer-inner {
+    position: relative;
+  }
+
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .footer-wordmark {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3.75rem);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  .footer-mark {
+    inline-size: clamp(2.25rem, 1.8rem + 1.6vw, 3.25rem);
+    block-size: clamp(2.25rem, 1.8rem + 1.6vw, 3.25rem);
+    flex: none;
+  }
+
+  .footer-regulator {
+    margin-top: 1rem;
+    color: var(--color-on-dark-muted);
+  }
+
+  .footer-top-link :global(svg) {
+    transform: rotate(-90deg);
+  }
+
+  .footer-divider {
+    margin-block: clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: 3rem 2.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .footer-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .footer-grid {
+      grid-template-columns: 1.35fr 1.15fr 0.6fr;
+    }
+  }
+
+  .footer-heading {
+    margin-bottom: 1.25rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-saffron);
+  }
+
+  .footer-offices {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .footer-entity {
+    font-weight: 700;
+  }
+
+  .footer-offices address {
+    margin-top: 0.25rem;
+    font-style: normal;
+    color: var(--color-on-dark-muted);
+  }
+
+  .footer-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-block-size: 2.75rem;
+    font-weight: 600;
+  }
+
+  .footer-phone :global(svg) {
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    color: var(--color-saffron);
+  }
+
+  .footer-licences {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .footer-licences div {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
+  }
+
+  .footer-licences dt {
+    color: var(--color-on-dark-muted);
+    font-size: 0.9375rem;
+  }
+
+  .footer-licences dd {
+    margin-top: 0.25rem;
+    font-weight: 600;
+  }
+
+  .footer-links {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .footer-links a,
+  .footer-legal a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    font-weight: 600;
+    background-image: linear-gradient(var(--color-saffron), var(--color-saffron));
+    background-size: 0% 1px;
+    background-position: 0 calc(50% + 0.8em);
+    background-repeat: no-repeat;
+    transition: background-size 500ms var(--ease-out), color var(--dur-ui) ease;
+  }
+
+  .footer-links a:hover,
+  .footer-legal a:hover {
+    background-size: 100% 1px;
+    color: var(--color-saffron);
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: clamp(3rem, 2rem + 3vw, 5rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
+    font-size: 0.875rem;
+    color: var(--color-on-dark-muted);
+  }
+
+  .footer-legal {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-legal a {
+    color: var(--color-white);
+  }
+</style>

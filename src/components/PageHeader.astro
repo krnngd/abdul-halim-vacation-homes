@@ -1,0 +1,151 @@
+---
+/*
+ * Inner-page header: light editorial band with a large serif H1,
+ * an optional arch-masked image, and a girih ornament.
+ */
+import Rich from './Rich.astro';
+import Pic from './Pic.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  image?: string;
+  imageAlt?: string;
+  caption?: string;
+}
+
+const { eyebrow, title, intro, image, imageAlt = '', caption } = Astro.props;
+const hasImage = Boolean(image);
+---
+
+<header class:list={['page-header', { 'has-image': hasImage }]}>
+  <div class="page-header-ornament" aria-hidden="true">
+    <div class="pattern pattern-girih"></div>
+  </div>
+
+  <div class="container-x page-header-grid">
+    <div class="page-header-copy">
+      <p class="eyebrow" data-reveal>{eyebrow}</p>
+      <h1 class="display-1 page-title" data-split>{title}</h1>
+      {intro && <Rich as="p" class="lead page-intro" text={intro} data-reveal />}
+      <slot />
+    </div>
+
+    {image && (
+      <figure class="page-header-figure">
+        <div class="arch-wrap">
+          <div class="arch-outer" data-reveal-image>
+            <div class="arch page-arch">
+              <div class="parallax-inner" data-parallax>
+                <Pic
+                  name={image}
+                  alt={imageAlt}
+                  sizes="(min-width: 64rem) 32rem, (min-width: 40rem) 60vw, 92vw"
+                  class="media-cover"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+          <span class="arch-frame" aria-hidden="true"></span>
+        </div>
+        {caption && <figcaption class="figure-caption">{caption}</figcaption>}
+      </figure>
+    )}
+  </div>
+
+  <div class="container-x">
+    <div class="divider-star page-header-divider" aria-hidden="true"><span class="ornament-star"></span></div>
+  </div>
+</header>
+
+<style>
+  .page-header {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(8.5rem, 6.5rem + 8vw, 13rem) 0;
+  }
+
+  .page-header-ornament {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    inline-size: min(60rem, 80vw);
+    block-size: 100%;
+    mask-image: radial-gradient(70% 75% at 100% 10%, #000 10%, transparent 75%);
+    pointer-events: none;
+  }
+
+  .page-header-ornament .pattern {
+    --pattern-color: var(--color-saffron-deep);
+    --pattern-opacity: 0.16;
+    --pattern-size: 104px;
+  }
+
+  .page-header-grid {
+    position: relative;
+    display: grid;
+    gap: 3.5rem;
+    align-items: end;
+  }
+
+  .page-header-copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+    max-inline-size: 56rem;
+  }
+
+  .page-title {
+    color: var(--color-gulf);
+  }
+
+  .page-intro {
+    max-inline-size: 44rem;
+    color: var(--color-ink-muted);
+  }
+
+  .page-header-figure {
+    position: relative;
+    inline-size: min(100%, 26rem);
+    justify-self: center;
+  }
+
+  .page-arch {
+    aspect-ratio: 4 / 5;
+    background: var(--color-mist);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .parallax-inner {
+    position: absolute;
+    inset: -8% 0;
+  }
+
+  .figure-caption {
+    margin-top: 1.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-muted);
+    text-align: center;
+  }
+
+  .page-header-divider {
+    margin-top: clamp(4rem, 3rem + 4vw, 6.5rem);
+  }
+
+  @media (min-width: 64rem) {
+    .has-image .page-header-grid {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.8fr);
+      gap: 5rem;
+    }
+
+    .page-header-figure {
+      justify-self: end;
+      inline-size: 100%;
+      max-inline-size: 32rem;
+    }
+  }
+</style>

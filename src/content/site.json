@@ -1,0 +1,209 @@
+{
+  "showPlaceholders": true,
+  "lang": "en",
+  "brand": {
+    "name": "Abdul Halim Vacation Homes",
+    "line1": "Abdul Halim",
+    "line2": "Vacation Homes",
+    "legalName": "Abdul Halim Vacation Homes Rental L.L.C"
+  },
+  "skipLink": "Skip to content",
+  "nav": {
+    "label": "Main",
+    "items": [
+      {
+        "label": "About Us",
+        "href": "/about/",
+        "match": [
+          "/about/",
+          "/leadership/"
+        ]
+      },
+      {
+        "label": "Services",
+        "href": "/services/",
+        "match": [
+          "/services/"
+        ]
+      },
+      {
+        "label": "Standards",
+        "href": "/standards/",
+        "match": [
+          "/standards/"
+        ]
+      },
+      {
+        "label": "Portfolio",
+        "href": "/portfolio/",
+        "match": [
+          "/portfolio/"
+        ]
+      },
+      {
+        "label": "Stays",
+        "href": "/stays/",
+        "match": [
+          "/stays/"
+        ]
+      }
+    ],
+    "cta": {
+      "label": "Partner with us",
+      "href": "/partner-with-us/"
+    },
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menuTitle": "Menu",
+    "mobileItems": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "About Us",
+        "href": "/about/"
+      },
+      {
+        "label": "Leadership",
+        "href": "/leadership/"
+      },
+      {
+        "label": "Services",
+        "href": "/services/"
+      },
+      {
+        "label": "Standards",
+        "href": "/standards/"
+      },
+      {
+        "label": "Portfolio",
+        "href": "/portfolio/"
+      },
+      {
+        "label": "Stays",
+        "href": "/stays/"
+      },
+      {
+        "label": "Partner With Us",
+        "href": "/partner-with-us/"
+      }
+    ],
+    "homeSuffix": "home page"
+  },
+  "whatsapp": {
+    "display": "+971 55 120 5005",
+    "number": "971551205005",
+    "note": "[confirm which number is for WhatsApp]"
+  },
+  "contact": {
+    "email": "[email]",
+    "hours": "[hours]"
+  },
+  "offices": [
+    {
+      "entity": "Abdul Halim Vacation Homes Rental L.L.C",
+      "address": "Office 131, Majid Sultan Abdul Rahman Saif Al Shamsi Building, Al Muteena, Deira, Dubai, UAE",
+      "phone": "+971 55 120 5005",
+      "phoneHref": "tel:+971551205005",
+      "mapQuery": "Majid Sultan Abdul Rahman Saif Al Shamsi Building, Al Muteena, Deira, Dubai"
+    },
+    {
+      "entity": "Green Tree Holiday Home Rental L.L.C",
+      "address": "Office No. 152, Dubai Industrial City, Saih Shuaib 2, Dubai, UAE",
+      "phone": "+971 55 637 4725",
+      "phoneHref": "tel:+971556374725",
+      "mapQuery": "Dubai Industrial City, Saih Shuaib 2, Dubai"
+    }
+  ],
+  "licences": [
+    {
+      "label": "Trade licence, Abdul Halim Vacation Homes Rental L.L.C",
+      "value": "[Licence No.]"
+    },
+    {
+      "label": "Trade licence, Green Tree Holiday Home Rental L.L.C",
+      "value": "[Licence No.]"
+    },
+    {
+      "label": "Trade licence, Nada Alnoor Real Estate Brokerage L.L.C",
+      "value": "[Licence No.]"
+    },
+    {
+      "label": "Holiday-home operator licence",
+      "value": "[Licence No.]"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Abdul Halim Vacation Homes Rental L.L.C",
+      "relation": "Primary",
+      "summary": "Primary operating entity.",
+      "role": "Primary entity, holiday-home and residential operations"
+    },
+    {
+      "name": "Green Tree Holiday Home Rental L.L.C",
+      "relation": "Associated",
+      "summary": "Associated holiday-home operator.",
+      "role": "Associated holiday-home operator"
+    },
+    {
+      "name": "Nada Alnoor Real Estate Brokerage L.L.C",
+      "relation": "Associated",
+      "summary": "Associated real estate brokerage.",
+      "role": "Associated brokerage [confirm role]"
+    }
+  ],
+  "closing": {
+    "eyebrow": "Partner with us",
+    "text": "Own residential property in Dubai? Speak directly with our partners.",
+    "button": {
+      "label": "Partner with us",
+      "href": "/partner-with-us/"
+    }
+  },
+  "footer": {
+    "officesTitle": "Offices",
+    "licencesTitle": "Licences",
+    "linksTitle": "Quick links",
+    "links": [
+      {
+        "label": "About Us",
+        "href": "/about/"
+      },
+      {
+        "label": "Services",
+        "href": "/services/"
+      },
+      {
+        "label": "Standards",
+        "href": "/standards/"
+      },
+      {
+        "label": "Portfolio",
+        "href": "/portfolio/"
+      },
+      {
+        "label": "Stays",
+        "href": "/stays/"
+      },
+      {
+        "label": "Partner With Us",
+        "href": "/partner-with-us/"
+      }
+    ],
+    "legal": [
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy-policy/"
+      },
+      {
+        "label": "Terms of Use",
+        "href": "/terms-of-use/"
+      }
+    ],
+    "copyright": "© [Year] Abdul Halim Vacation Homes Rental L.L.C. All rights reserved.",
+    "regulator": "Regulated by the Department of Economy and Tourism, Dubai",
+    "backToTop": "Back to top"
+  }
+}

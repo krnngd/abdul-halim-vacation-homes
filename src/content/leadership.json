@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "Leadership | Abdul Halim Vacation Homes",
+    "description": "The registered partners and management team of Abdul Halim Vacation Homes Rental L.L.C and Green Tree Holiday Home Rental L.L.C."
+  },
+  "hero": {
+    "eyebrow": "Leadership",
+    "title": "Every property is overseen by a partner",
+    "intro": "Our registered partners steer portfolio operations directly. Every property is overseen by a partner."
+  },
+  "groups": [
+    {
+      "title": "Partners, Abdul Halim Vacation Homes Rental L.L.C",
+      "people": [
+        {
+          "name": "Mr. Abdul Halim Samad Mollah",
+          "role": "Partner / Investor",
+          "initials": "AM",
+          "responsibility": "[Responsibility]",
+          "photo": "team-abdul-halim-samad-mollah.png"
+        },
+        {
+          "name": "Lovely Halim Abdul Malek",
+          "role": "Manager / Partner",
+          "initials": "LM",
+          "responsibility": "[Responsibility]"
+        }
+      ]
+    },
+    {
+      "title": "Partners, Green Tree Holiday Home Rental L.L.C",
+      "people": [
+        {
+          "name": "Mohammad Mahabubur Rahman",
+          "role": "Manager / Partner",
+          "photo": "team-mohammad-mahabubur.png",
+          "initials": "MR",
+          "responsibility": "[Responsibility]"
+        },
+        {
+          "name": "Mohammad Mustafizur Rahman",
+          "role": "Partner",
+          "initials": "MR",
+          "responsibility": "[Responsibility]"
+        },
+        {
+          "name": "Minhaz Uddin Momrez Uddin",
+          "role": "Partner",
+          "photo": "team-minhaz-uddin.png",
+          "initials": "MU",
+          "responsibility": "[Responsibility]"
+        }
+      ]
+    },
+    {
+      "title": "Management team",
+      "people": [
+        {
+          "name": "Mr. Mahesh Jani",
+          "role": "Manager, Client Relationships",
+          "photo": "team-mahesh-jani.png",
+          "initials": "MJ",
+          "responsibility": "[Responsibility]"
+        },
+        {
+          "name": "Mr. Razaul Karim",
+          "role": "Manager, Properties",
+          "photo": "team-razaul-karim.png",
+          "initials": "RK",
+          "responsibility": "[Responsibility]"
+        }
+      ]
+    }
+  ],
+  "photoAltSuffix": "portrait",
+  "noPhotoLabel": "Photo to be supplied"
+}

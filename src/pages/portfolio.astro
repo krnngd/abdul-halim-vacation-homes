@@ -1,0 +1,713 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ClosingBand from '../components/ClosingBand.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Rich from '../components/Rich.astro';
+import portfolio from '../content/portfolio.json';
+
+const { meta, hero, filter, labels, areas, groups } = portfolio;
+const areaName = (id: string) => areas.find((area) => area.id === id)?.name ?? id;
+const countFor = (id: string) =>
+  groups.filter((group) => group.area === id).reduce((total, group) => total + group.buildings.length, 0);
+const totalCount = groups.reduce((total, group) => total + group.buildings.length, 0);
+const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+---
+
+<Base title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} />
+
+  <section
+    class="section portfolio"
+    aria-label={hero.title}
+    data-portfolio
+    data-results-announcement={JSON.stringify(filter.resultsAnnouncement)}
+    data-results-all={JSON.stringify(filter.resultsAll)}
+  >
+    <div class="container-x">
+      <p class="label-caps filter-label" id="filter-label" data-reveal>{filter.label}</p>
+      <div class="filter-buttons" role="group" aria-labelledby="filter-label">
+        <button class="filter-btn" type="button" data-filter="all" data-label={filter.all} aria-pressed="true">
+          {filter.all}<span class="filter-count" aria-hidden="true">{totalCount}</span>
+        </button>
+        {areas.map((area) => (
+          <button class="filter-btn" type="button" data-filter={area.id} data-label={area.name} aria-pressed="false">
+            {area.name}<span class="filter-count" aria-hidden="true">{countFor(area.id)}</span>
+          </button>
+        ))}
+      </div>
+      <p class="sr-only" aria-live="polite" data-filter-status></p>
+
+      {groups.map((group) => {
+        const groupId = `area-${slug(group.title)}`;
+        return (
+          <section class="area-group" data-area-group={group.area} aria-labelledby={groupId}>
+            <header class="area-head">
+              <h2 id={groupId} class="display-2 area-title" data-split>{group.title}</h2>
+              <span class="area-rule" aria-hidden="true"></span>
+            </header>
+            <ul class="building-grid">
+              {group.buildings.map((building) => {
+                const isGallery = Boolean(building.isGallery);
+                const dialogId = `detail-${building.id}`;
+                const cover = building.images[0];
+                return (
+                  <li class="building" data-card>
+                    <div class="arch-wrap">
+                      <div class="arch building-arch">
+                        <Pic name={cover.file} alt={cover.alt} sizes="(min-width: 64rem) 28vw, (min-width: 40rem) 45vw, 92vw" class="media-cover building-img" />
+                        {!isGallery && <span class="status-chip"><span class="status-dot" aria-hidden="true"></span>{labels.status}</span>}
+                        {building.images.length > 1 && (
+                          <span class="photo-count"><Icon name="gallery-wide-linear" />{building.images.length} {labels.photos}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div class="building-body">
+                      <p class="building-area">{areaName(group.area)}<span aria-hidden="true"> · </span><span class="building-name">{building.name}</span></p>
+                      <h3 class="display-3 building-type">{building.type}</h3>
+                      <p class="building-desc">{building.description}</p>
+                      <button
+                        class="building-open"
+                        type="button"
+                        data-open-detail
+                        aria-haspopup="dialog"
+                        aria-controls={dialogId}
+                      >
+                        <span>{isGallery ? labels.viewGallery : labels.view}</span>
+                        <span class="sr-only">: {building.type}, {building.name}, {areaName(group.area)}</span>
+                        <span class="building-open-icon" aria-hidden="true"><Icon name="arrow-right-linear" /></span>
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })}
+    </div>
+
+    {groups.flatMap((group) =>
+      group.buildings.map((building) => {
+        const dialogId = `detail-${building.id}`;
+        const multi = building.images.length > 1;
+        const isGallery = Boolean(building.isGallery);
+        return (
+          <dialog id={dialogId} class="lightbox" data-lightbox aria-labelledby={`${dialogId}-title`} data-counter={labels.imageOf}>
+            <div class="lightbox-panel">
+              <div class="lightbox-stage">
+                <ul class="slides">
+                  {building.images.map((image, index) => (
+                    <li class="slide" data-slide data-active={index === 0 ? '' : undefined} aria-hidden={index === 0 ? 'false' : 'true'}>
+                      <Pic name={image.file} alt={image.alt} sizes="(min-width: 64rem) 56vw, 94vw" class="slide-img" />
+                    </li>
+                  ))}
+                </ul>
+                {multi && (
+                  <div class="stage-controls">
+                    <button class="stage-btn" type="button" data-prev>
+                      <span class="sr-only">{labels.previous}</span>
+                      <Icon name="alt-arrow-left-linear" />
+                    </button>
+                    <p class="stage-counter" data-counter aria-live="polite"></p>
+                    <button class="stage-btn" type="button" data-next>
+                      <span class="sr-only">{labels.next}</span>
+                      <Icon name="alt-arrow-right-linear" />
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div class="lightbox-info">
+                <button class="lightbox-close" type="button" data-close>
+                  <span class="sr-only">{labels.close}</span>
+                  <span class="close-x" aria-hidden="true"><span></span><span></span></span>
+                </button>
+                <p class="eyebrow">{group.title}</p>
+                <h2 id={`${dialogId}-title`} class="display-2 lightbox-title">{building.type}</h2>
+                <p class="lightbox-desc">{building.description}</p>
+                <dl class="detail-list">
+                  <div><dt>{labels.area}</dt><dd>{areaName(group.area)}</dd></div>
+                  {!isGallery && <div><dt>{labels.type}</dt><dd>{building.type}</dd></div>}
+                  {!isGallery && <div><dt>{labels.units}</dt><dd><Rich text={labels.unitsValue} /></dd></div>}
+                  {!isGallery && <div><dt>{labels.statusLabel}</dt><dd class="detail-status"><span class="status-dot" aria-hidden="true"></span>{labels.status}</dd></div>}
+                </dl>
+                {multi && (
+                  <ul class="thumbs">
+                    {building.images.map((image, index) => (
+                      <li>
+                        <button class="thumb" type="button" data-thumb aria-current={index === 0 ? 'true' : 'false'}>
+                          <span class="sr-only">{labels.imageOf.replace('{n}', String(index + 1)).replace('{total}', String(building.images.length))}</span>
+                          <Pic name={image.file} alt="" sizes="96px" class="thumb-img" maxWidth={360} />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </dialog>
+        );
+      }),
+    )}
+  </section>
+
+  <ClosingBand />
+</Base>
+
+<style>
+  .portfolio {
+    padding-top: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+
+  /* Filter ----------------------------------------------------------------- */
+  .filter-label {
+    margin-bottom: 1rem;
+    color: var(--color-ink-muted);
+  }
+
+  /* Only the frosted pill sticks; it scrolls sideways on narrow screens. */
+  .filter-buttons {
+    position: sticky;
+    top: 6.25rem;
+    z-index: 5;
+    display: flex;
+    gap: 0.375rem;
+    inline-size: fit-content;
+    max-inline-size: 100%;
+    margin-bottom: clamp(2.5rem, 2rem + 2vw, 4rem);
+    padding: 0.375rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-white) 86%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .filter-buttons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-btn {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-block-size: 2.75rem;
+    padding-inline: 1.125rem 0.75rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.875rem;
+    font-weight: 650;
+    color: var(--color-gulf);
+    cursor: pointer;
+    transition: background-color 400ms var(--ease-out), color 400ms var(--ease-out), transform 160ms var(--ease-out);
+  }
+
+  .filter-btn:hover {
+    background: var(--color-mist);
+  }
+
+  .filter-btn:active {
+    transform: scale(0.97);
+  }
+
+  .filter-btn[aria-pressed="true"] {
+    background: var(--color-gulf);
+    color: var(--color-white);
+  }
+
+  .filter-count {
+    display: grid;
+    place-items: center;
+    min-inline-size: 1.5rem;
+    block-size: 1.5rem;
+    padding-inline: 0.375rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    background: var(--color-mist);
+    color: var(--color-gulf);
+  }
+
+  .filter-btn[aria-pressed="true"] .filter-count {
+    background: var(--color-saffron);
+    color: var(--color-gulf-ink);
+  }
+
+  /* Groups ------------------------------------------------------------------ */
+  .area-group + .area-group {
+    margin-top: clamp(4rem, 3rem + 4vw, 7rem);
+  }
+
+  .area-group[hidden] {
+    display: none;
+  }
+
+  .area-head {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+
+  .area-title {
+    flex: 0 1 auto;
+    min-inline-size: 0;
+    color: var(--color-gulf);
+    font-size: clamp(1.875rem, 1.4rem + 1.8vw, 3rem);
+  }
+
+  .area-rule {
+    flex: 1 0 2rem;
+    block-size: 1px;
+    background: linear-gradient(90deg, var(--color-saffron), transparent);
+  }
+
+  .building-grid {
+    display: grid;
+    gap: 2.5rem 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  }
+
+  @media (min-width: 64rem) {
+    .building-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .building {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+  }
+
+  .building-arch {
+    aspect-ratio: 4 / 4.6;
+    background: var(--color-mist);
+    box-shadow: var(--shadow-md);
+  }
+
+  .building-img {
+    transition: transform 1200ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .building:hover .building-img {
+      transform: scale(1.06);
+    }
+  }
+
+  .status-chip,
+  .photo-count {
+    position: absolute;
+    inset-block-end: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-block-size: 2rem;
+    padding-inline: 0.75rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-white);
+    background: color-mix(in srgb, var(--color-gulf-ink) 72%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .status-chip {
+    inset-inline-start: 1rem;
+  }
+
+  .photo-count {
+    inset-inline-end: 1rem;
+  }
+
+  .photo-count :global(svg) {
+    inline-size: 1rem;
+    block-size: 1rem;
+    color: var(--color-saffron);
+  }
+
+  .status-dot {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-saffron);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-saffron) 30%, transparent);
+  }
+
+  .building-body {
+    display: grid;
+    gap: 0.5rem;
+    padding-inline: 0.25rem;
+  }
+
+  .building-area {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-saffron-deep);
+  }
+
+  .building-name {
+    color: var(--color-ink-muted);
+  }
+
+  .building-type {
+    color: var(--color-gulf);
+  }
+
+  .building-desc {
+    color: var(--color-ink-muted);
+  }
+
+  .building-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    justify-self: start;
+    min-block-size: 2.75rem;
+    margin-top: 0.25rem;
+    font-weight: 650;
+    font-size: 0.9375rem;
+    color: var(--color-gulf);
+    cursor: pointer;
+    border-radius: var(--radius-pill);
+  }
+
+  /* Stretch the button's hit area over the whole card. */
+  .building-open::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+  }
+
+  .building-open:focus-visible {
+    outline: none;
+  }
+
+  .building-open:focus-visible::after {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 6px;
+  }
+
+  .building-open-icon {
+    display: grid;
+    place-items: center;
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--color-gulf) 22%, transparent);
+    transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease, transform 400ms var(--ease-out);
+  }
+
+  .building-open-icon :global(svg) {
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .building:hover .building-open-icon {
+      background: var(--color-gulf);
+      color: var(--color-white);
+      transform: translateX(4px);
+    }
+  }
+
+  /* Lightbox --------------------------------------------------------------- */
+  .lightbox {
+    inline-size: min(72rem, calc(100% - 1.5rem));
+    max-inline-size: none;
+    max-block-size: calc(100dvh - 1.5rem);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-xl);
+    background: var(--color-white);
+    color: var(--color-ink);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: scale(0.97);
+    transition:
+      opacity 450ms var(--ease-out),
+      transform 600ms var(--ease-expo),
+      overlay 450ms allow-discrete,
+      display 450ms allow-discrete;
+  }
+
+  .lightbox[open] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    .lightbox[open] {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
+
+  .lightbox::backdrop {
+    background: color-mix(in srgb, var(--color-gulf-ink) 78%, transparent);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 450ms ease, overlay 450ms allow-discrete, display 450ms allow-discrete;
+  }
+
+  .lightbox[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .lightbox[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox,
+    .lightbox[open] {
+      transform: none;
+    }
+  }
+
+  .lightbox-panel {
+    display: grid;
+    max-block-size: calc(100dvh - 1.5rem);
+    overflow-y: auto;
+  }
+
+  @media (min-width: 64rem) {
+    .lightbox-panel {
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      overflow: hidden;
+    }
+  }
+
+  .lightbox-stage {
+    position: relative;
+    min-block-size: 18rem;
+    background: var(--color-gulf-ink);
+    aspect-ratio: 4 / 4.2;
+  }
+
+  @media (min-width: 64rem) {
+    .lightbox-stage {
+      aspect-ratio: auto;
+      block-size: min(46rem, calc(100dvh - 1.5rem));
+    }
+  }
+
+  .slides,
+  .slide {
+    position: absolute;
+    inset: 0;
+  }
+
+  .slide {
+    opacity: 0;
+    filter: blur(4px);
+    transition: opacity 500ms var(--ease-out), filter 500ms var(--ease-out);
+  }
+
+  .slide[data-active] {
+    opacity: 1;
+    filter: none;
+  }
+
+  .slide-img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+
+  .stage-controls {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .stage-btn {
+    display: grid;
+    place-items: center;
+    inline-size: 3rem;
+    block-size: 3rem;
+    border-radius: 50%;
+    color: var(--color-white);
+    background: color-mix(in srgb, var(--color-gulf-ink) 70%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-saffron) 50%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: background-color var(--dur-ui) ease, transform 160ms var(--ease-out);
+    --focus-ring: var(--color-saffron);
+  }
+
+  .stage-btn:hover {
+    background: var(--color-gulf);
+  }
+
+  .stage-btn:active {
+    transform: scale(0.95);
+  }
+
+  .stage-btn :global(svg) {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+  }
+
+  .stage-counter {
+    min-inline-size: 7.5rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-gulf-ink) 70%, transparent);
+    color: var(--color-white);
+    font-size: 0.8125rem;
+    font-weight: 650;
+    text-align: center;
+  }
+
+  .lightbox-info {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    padding: clamp(1.75rem, 1.25rem + 2vw, 3rem);
+    padding-top: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  }
+
+  @media (min-width: 64rem) {
+    .lightbox-info {
+      overflow-y: auto;
+      max-block-size: min(46rem, calc(100dvh - 1.5rem));
+    }
+  }
+
+  .lightbox-close {
+    position: absolute;
+    inset-block-start: 1rem;
+    inset-inline-end: 1rem;
+    display: grid;
+    place-items: center;
+    inline-size: 3rem;
+    block-size: 3rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-line);
+    color: var(--color-gulf);
+    cursor: pointer;
+    transition: background-color var(--dur-ui) ease, transform 160ms var(--ease-out);
+  }
+
+  .lightbox-close:hover {
+    background: var(--color-mist);
+  }
+
+  .lightbox-close:active {
+    transform: scale(0.95);
+  }
+
+  .close-x {
+    position: relative;
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  .close-x span {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: calc(50% - 0.75px);
+    block-size: 1.5px;
+    background: currentColor;
+    transform: rotate(45deg);
+  }
+
+  .close-x span:last-child {
+    transform: rotate(-45deg);
+  }
+
+  .lightbox-title {
+    color: var(--color-gulf);
+    font-size: clamp(1.875rem, 1.5rem + 1.4vw, 2.75rem);
+    padding-inline-end: 3rem;
+  }
+
+  .lightbox-desc {
+    color: var(--color-ink-muted);
+  }
+
+  .detail-list {
+    display: grid;
+    margin-top: 0.5rem;
+  }
+
+  .detail-list div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.875rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .detail-list dt {
+    font-size: 0.875rem;
+    color: var(--color-ink-muted);
+  }
+
+  .detail-list dd {
+    font-weight: 650;
+    color: var(--color-gulf);
+    text-align: end;
+  }
+
+  .detail-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .thumb {
+    display: block;
+    inline-size: 4.5rem;
+    block-size: 4.5rem;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    opacity: 0.6;
+    cursor: pointer;
+    outline-offset: 2px;
+    transition: opacity var(--dur-ui) ease, box-shadow var(--dur-ui) ease;
+  }
+
+  .thumb:hover {
+    opacity: 0.9;
+  }
+
+  .thumb[aria-current="true"] {
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--color-white), 0 0 0 3px var(--color-saffron-deep);
+  }
+
+  .thumb-img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+</style>

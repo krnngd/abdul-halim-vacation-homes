@@ -1,0 +1,72 @@
+---
+/*
+ * Dev-only stress toggle (break-ui). Rendered by Base.astro only under
+ * `astro dev`; it never reaches the production build.
+ * ?data=worst fills every placeholder slot with a realistic long value,
+ * ?dir=rtl previews right-to-left, ?text=200 doubles the root font size.
+ */
+import fixture from './worst-case.json';
+---
+
+<div class="stress" role="group" aria-label="Stress test (development only)" data-stress>
+  <a href="?data=demo" data-param="data" data-value="demo">Demo data</a>
+  <a href="?data=worst" data-param="data" data-value="worst">Worst case</a>
+  <a href="?dir=rtl" data-param="dir" data-value="rtl" data-toggle>RTL</a>
+  <a href="?text=200" data-param="text" data-value="200" data-toggle>Text 200%</a>
+</div>
+
+<script is:inline define:vars={{ placeholders: fixture.placeholders }}>
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var root = document.documentElement;
+    if (params.get('data') === 'worst') {
+      document.querySelectorAll('.ph').forEach(function (chip) {
+        var value = placeholders[chip.textContent.trim()];
+        if (value === undefined) return;
+        chip.dataset.original = chip.textContent;
+        chip.textContent = value;
+        chip.classList.remove('ph');
+      });
+    }
+    if (params.get('dir') === 'rtl') root.setAttribute('dir', 'rtl');
+    if (params.get('text') === '200') root.style.fontSize = '200%';
+
+    document.querySelectorAll('[data-stress] a').forEach(function (link) {
+      var key = link.dataset.param;
+      var value = link.dataset.value;
+      var next = new URLSearchParams(location.search);
+      var active = key === 'data' ? (params.get('data') || 'demo') === value : params.get(key) === value;
+      if (link.hasAttribute('data-toggle') && active) next.delete(key);
+      else next.set(key, value);
+      link.href = '?' + next.toString();
+      if (active) link.setAttribute('aria-current', 'true');
+    });
+  })();
+</script>
+
+<style>
+  .stress {
+    position: fixed;
+    inset-block-end: 12px;
+    left: 50%; /* physical: centred in both directions */
+    z-index: 1000;
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    translate: -50% 0;
+    border-radius: 999px;
+    background: #d4d4d4;
+    font: 600 12px/1 system-ui, sans-serif;
+  }
+
+  .stress a {
+    padding: 7px 12px;
+    border-radius: 999px;
+    color: #222;
+    white-space: nowrap;
+  }
+
+  .stress a[aria-current] {
+    background: #fff;
+  }
+</style>

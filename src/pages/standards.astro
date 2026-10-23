@@ -1,0 +1,244 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ClosingBand from '../components/ClosingBand.astro';
+import Icon from '../components/Icon.astro';
+import Rich from '../components/Rich.astro';
+import standards from '../content/standards.json';
+import site from '../content/site.json';
+
+const { meta, hero, principles, licences } = standards;
+---
+
+<Base title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} />
+
+  <section class="section" aria-labelledby="principles-title">
+    <div class="container-x principles-layout">
+      <div class="principles-aside">
+        <SectionHeading eyebrow={principles.eyebrow} title={principles.title} id="principles-title" />
+        <div class="aside-ornament" aria-hidden="true">
+          <span class="ornament-star"></span>
+        </div>
+      </div>
+
+      <ol class="principles">
+        {principles.items.map((item, index) => (
+          <li class="principle group" data-reveal>
+            <div class="principle-icon icon-tile"><Icon name={item.icon} /></div>
+            <div class="principle-body">
+              <p class="principle-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+              <h3 class="display-3 principle-title">{item.title}</h3>
+              <Rich as="p" class="principle-text" text={item.body} />
+              {item.facts && (
+                <dl class="principle-facts">
+                  {item.facts.map((fact) => (
+                    <div>
+                      <dt>{fact.label}</dt>
+                      <dd><Rich text={fact.value} /></dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section licences-section on-dark" aria-labelledby="licences-title">
+    <div class="pattern pattern-mashrabiya licences-lattice" aria-hidden="true"></div>
+    <div class="container-x licences-layout">
+      <SectionHeading eyebrow={licences.eyebrow} title={licences.title} id="licences-title" />
+      <ul class="licences">
+        {site.licences.map((licence) => (
+          <li class="licence" data-reveal>
+            <Icon name="diploma-verified-linear" class="licence-icon" />
+            <p class="licence-label">{licence.label}</p>
+            <p class="licence-value">
+              <span class="sr-only">{licences.numberLabel}: </span>
+              <Rich text={licence.value} />
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <ClosingBand spaced />
+</Base>
+
+<style>
+  .principles-layout {
+    display: grid;
+    gap: 3.5rem;
+  }
+
+  .aside-ornament {
+    display: none;
+  }
+
+  @media (min-width: 64rem) {
+    .principles-layout {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .principles-aside {
+      position: sticky;
+      top: 8rem;
+    }
+
+    .aside-ornament {
+      display: block;
+      margin-top: 4rem;
+    }
+
+    .aside-ornament span {
+      display: block;
+      inline-size: 9rem;
+      block-size: 9rem;
+      opacity: 0.5;
+    }
+  }
+
+  .principles {
+    display: grid;
+  }
+
+  .principle {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.5rem;
+    padding-block: 2.25rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .principle:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .principle-body {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .principle-index {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-saffron-deep);
+  }
+
+  .principle-title {
+    color: var(--color-gulf);
+  }
+
+  .principle-text {
+    color: var(--color-ink-muted);
+    max-inline-size: 58ch;
+  }
+
+  .principle-facts {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  @media (min-width: 40rem) {
+    .principle-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .principle-facts div {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .principle-facts dt {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink-muted);
+  }
+
+  .principle-facts dd {
+    margin-top: 0.25rem;
+    font-weight: 700;
+    color: var(--color-gulf);
+  }
+
+  /* Licences ---------------------------------------------------------------- */
+  .licences-section {
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--color-gulf-deep);
+  }
+
+  .licences-lattice {
+    --pattern-color: var(--color-white);
+    --pattern-opacity: 0.05;
+    --pattern-size: 32px;
+    z-index: -1;
+    --pattern-fade: linear-gradient(90deg, transparent, #000);
+  }
+
+  .licences-layout {
+    display: grid;
+    gap: 3rem;
+  }
+
+  @media (min-width: 64rem) {
+    .licences-layout {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  .licences {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .licence {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "icon label" "icon value";
+    gap: 0.25rem 1.25rem;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-white) 5%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-saffron) 35%, transparent);
+  }
+
+  @media (min-width: 40rem) {
+    .licence {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas: "icon label value";
+      padding: 1.5rem 1.75rem;
+    }
+  }
+
+  .licence :global(.licence-icon) {
+    grid-area: icon;
+    inline-size: 2rem;
+    block-size: 2rem;
+    color: var(--color-saffron);
+  }
+
+  .licence-label {
+    grid-area: label;
+    font-weight: 600;
+  }
+
+  .licence-value {
+    grid-area: value;
+  }
+</style>

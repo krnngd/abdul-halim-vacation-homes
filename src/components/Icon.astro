@@ -1,0 +1,32 @@
+---
+/*
+ * Solar line icons (Iconify), inlined at build time. No runtime cost.
+ */
+import { icons } from '@iconify-json/solar';
+import { getIconData, iconToSVG, replaceIDs } from '@iconify/utils';
+
+interface Props {
+  name: string;
+  class?: string;
+  label?: string;
+}
+
+const { name, class: className, label } = Astro.props;
+const data = getIconData(icons, name);
+if (!data) {
+  throw new Error(`Unknown Solar icon "${name}"`);
+}
+const svg = iconToSVG(data, { height: 'auto' });
+const body = replaceIDs(svg.body);
+const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true', focusable: 'false' };
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={svg.attributes.viewBox}
+  width="24"
+  height="24"
+  class={className}
+  {...a11y}
+  set:html={body}
+/>

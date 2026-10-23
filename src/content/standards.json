@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Standards & Compliance | Abdul Halim Vacation Homes",
+    "description": "How Abdul Halim Vacation Homes protects the owner's asset, reputation and regulatory standing: integrity, stewardship, accountability, regulatory compliance, guest conduct and owner reporting."
+  },
+  "hero": {
+    "eyebrow": "Standards & Compliance",
+    "title": "Standards & Compliance",
+    "intro": "How we protect the owner's asset, reputation and regulatory standing."
+  },
+  "principles": {
+    "eyebrow": "Our standards",
+    "title": "Six standards for every property",
+    "items": [
+      { "icon": "scale-linear", "title": "Integrity", "body": "Transparent records and dealings with owners, guests and authorities." },
+      { "icon": "shield-check-linear", "title": "Stewardship", "body": "Regular inspections and prompt maintenance keep each building safe and in good condition.", "facts": [ { "label": "Inspection schedule", "value": "[frequency]" }, { "label": "Maintenance response time", "value": "[time]" } ] },
+      { "icon": "user-hand-up-linear", "title": "Accountability", "body": "Strict adherence to Department of Economy and Tourism regulations, with a partner responsible for every property." },
+      { "icon": "diploma-verified-linear", "title": "Regulatory compliance", "body": "Each holiday-home unit operates under its own permit. Guests are registered as required, and applicable tourism fees are collected and remitted." },
+      { "icon": "home-smile-linear", "title": "Guest conduct", "body": "Family-oriented occupancy, identification for every guest, no parties or events, and house rules that are enforced. This protects the property's standing in its community." },
+      { "icon": "document-text-linear", "title": "Owner reporting", "body": "Owners receive [frequency] reports covering occupancy, maintenance log and payment schedule." }
+    ]
+  },
+  "licences": {
+    "eyebrow": "Licences",
+    "title": "Licences",
+    "numberLabel": "Licence No."
+  }
+}

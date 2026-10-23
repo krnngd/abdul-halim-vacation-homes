@@ -1,0 +1,223 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ClosingBand from '../components/ClosingBand.astro';
+import Icon from '../components/Icon.astro';
+import services from '../content/services.json';
+
+const { meta, hero, services: list, process, cta } = services;
+---
+
+<Base title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} />
+
+  <!-- Services -->
+  <section class="section" aria-labelledby="services-title">
+    <div class="container-x">
+      <SectionHeading eyebrow={list.eyebrow} title={list.title} id="services-title" class="services-heading" />
+      <ul class="services-grid">
+        {list.items.map((item, index) => (
+          <li class="service surface hover-card group" data-reveal>
+            <div class="service-top">
+              <span class="icon-tile"><Icon name={item.icon} /></span>
+              <span class="service-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            </div>
+            <h3 class="display-3 service-title">{item.title}</h3>
+            <p class="service-body">{item.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Partnership process -->
+  <section class="section bg-mist" aria-labelledby="process-title">
+    <div class="container-x">
+      <div class="process-frame">
+        <SectionHeading eyebrow={process.eyebrow} title={process.title} id="process-title" class="process-heading" />
+
+        <div class="process" data-progress>
+          <div class="process-track" aria-hidden="true">
+            <span class="process-line" data-progress-line></span>
+          </div>
+          <ol class="process-steps">
+            {process.steps.map((step, index) => (
+              <li class="step" data-step>
+                <span class="step-node" aria-hidden="true">
+                  <span class="step-number">{String(index + 1).padStart(2, '0')}</span>
+                </span>
+                <h3 class="step-title">
+                  <span class="sr-only">{process.stepLabel} {index + 1}: </span>{step}
+                </h3>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ClosingBand spaced text={cta.text} label={cta.button.label} href={cta.button.href} />
+</Base>
+
+<style>
+  .services-heading {
+    margin-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+
+  .services-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  }
+
+  @media (min-width: 64rem) {
+    .services-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .service {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    padding: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+  }
+
+  .service-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .service-index {
+    font-family: var(--font-display);
+    font-size: 2.75rem;
+    line-height: 1;
+    color: var(--color-line);
+  }
+
+  .service-title {
+    color: var(--color-gulf);
+  }
+
+  .service-body {
+    color: var(--color-ink-muted);
+  }
+
+  /* Process ---------------------------------------------------------------- */
+  .process-frame {
+    position: relative;
+    padding: clamp(2rem, 1.25rem + 3.5vw, 5rem);
+    border-radius: var(--radius-xl);
+    background: var(--color-white);
+    box-shadow: var(--shadow-md);
+  }
+
+  .process-heading {
+    margin-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+
+  .process {
+    --node: 3.5rem;
+    position: relative;
+  }
+
+  .process-track {
+    position: absolute;
+    inset-block: calc(var(--node) / 2) calc(var(--node) / 2);
+    inset-inline-start: calc(var(--node) / 2);
+    inline-size: 1px;
+    background: var(--color-line);
+  }
+
+  .process-line {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--color-saffron), var(--color-saffron-deep));
+    transform-origin: center top;
+  }
+
+  .process.is-static .process-line {
+    transform: none;
+  }
+
+  .process-steps {
+    position: relative;
+    display: grid;
+    gap: 2.25rem;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: var(--node) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .step-node {
+    display: grid;
+    place-items: center;
+    inline-size: var(--node);
+    block-size: var(--node);
+    border-radius: 50%;
+    border: 1px solid var(--color-line);
+    background: var(--color-white);
+    color: var(--color-gulf);
+    transition: background-color 500ms ease, border-color 500ms ease, color 500ms ease;
+  }
+
+  .step-number {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.625rem);
+    line-height: 1.2;
+    color: var(--color-gulf);
+  }
+
+  .step.is-reached .step-node {
+    background: var(--color-gulf);
+    border-color: var(--color-saffron);
+    color: var(--color-saffron);
+  }
+
+  @media (min-width: 64rem) {
+    .process-track {
+      inset-block: calc(var(--node) / 2) auto;
+      inset-inline: calc(100% / 12) calc(100% / 12);
+      inline-size: auto;
+      block-size: 1px;
+    }
+
+    .process-line {
+      background: linear-gradient(90deg, var(--color-saffron), var(--color-saffron-deep));
+      transform-origin: left center;
+    }
+
+    .process-steps {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .step {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      align-items: start;
+      gap: 1.5rem;
+      text-align: center;
+    }
+
+    .step-title {
+      font-size: 1.375rem;
+      max-inline-size: 12ch;
+    }
+  }
+</style>

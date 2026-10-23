@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Services for Property Owners | Abdul Halim Vacation Homes",
+    "description": "Full operation of residential buildings and holiday homes in Dubai: property operations, leasing, guest relations, licensing, portfolio administration and facility maintenance."
+  },
+  "hero": {
+    "eyebrow": "Services for property owners",
+    "title": "Full operation of your residential property, handled by one accountable team.",
+    "intro": "We take on the day-to-day running of residential buildings and holiday homes, from licensing to maintenance, so owners receive a well-kept asset and a steady, compliant operation."
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "Six services, one operation",
+    "items": [
+      {
+        "icon": "buildings-2-linear",
+        "title": "Property Operations",
+        "body": "Day-to-day running of every unit and common area, with a named manager for each building."
+      },
+      {
+        "icon": "key-minimalistic-2-linear",
+        "title": "Home Leasing",
+        "body": "Short-term holiday-home contracts and longer residential leases, managed to keep occupancy steady."
+      },
+      {
+        "icon": "users-group-rounded-linear",
+        "title": "Guest Relations",
+        "body": "Guest and tenant screening, identity checks, house rules, round-the-clock contact and complaint handling."
+      },
+      {
+        "icon": "diploma-verified-linear",
+        "title": "Licensing",
+        "body": "Holiday-home permits, renewals and regulatory filings, handled in-house."
+      },
+      {
+        "icon": "folder-with-files-linear",
+        "title": "Portfolio Administration",
+        "body": "Centralised tracking of every unit, lease and permit."
+      },
+      {
+        "icon": "ruler-pen-linear",
+        "title": "Facility Maintenance",
+        "body": "Planned and reactive maintenance through vetted contractors, keeping each property at hand-over standard."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "How a partnership works",
+    "title": "Six steps, in order",
+    "steps": [
+      "Initial meeting",
+      "Site inspection",
+      "Proposal and lease terms",
+      "Licensing and preparation",
+      "Operation",
+      "Periodic reporting to the owner"
+    ],
+    "stepLabel": "Step"
+  },
+  "cta": {
+    "text": "Discuss your property with us",
+    "button": {
+      "label": "Partner with us",
+      "href": "/partner-with-us/"
+    }
+  }
+}

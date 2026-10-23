@@ -1,0 +1,198 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ClosingBand from '../components/ClosingBand.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Rich from '../components/Rich.astro';
+import stays from '../content/stays.json';
+import site from '../content/site.json';
+
+const { meta, hero, labels, units, whatsappMessage } = stays;
+const { whatsapp } = site;
+const whatsappHref = `https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsappMessage)}`;
+---
+
+<Base title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro}>
+    <p class="stays-note" data-reveal>
+      <Icon name="chat-round-line-linear" class="stays-note-icon" />
+      <span>
+        {labels.whatsappLabel}: <a class="text-link" href={`tel:+${whatsapp.number}`}>{whatsapp.display}</a>{' '}
+        <Rich text={whatsapp.note} />
+      </span>
+    </p>
+  </PageHeader>
+
+  <section class="section stays" aria-label={hero.title}>
+    <div class="container-x">
+      <ul class="units">
+        {units.map((unit) => (
+          <li class="unit surface hover-card" data-reveal>
+            <div class="arch-wrap unit-media">
+              <div class="arch unit-arch">
+                <Pic name={unit.image} alt={unit.imageAlt} sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 92vw" class="media-cover unit-img" />
+                <span class="unit-photo-note">
+                  <Icon name="camera-linear" />
+                  {labels.photoNote}
+                </span>
+              </div>
+            </div>
+            <div class="unit-body">
+              <p class="unit-area"><Rich text={unit.area} /></p>
+              <p class="unit-spec">
+                <Icon name="bed-linear" class="unit-spec-icon" />
+                <Rich text={`${unit.bedrooms} · ${unit.guests}`} />
+              </p>
+              <p class="unit-price">
+                <Rich text={`${labels.from} ${unit.price} ${labels.perNight}`} />
+              </p>
+              <p class="unit-permit">
+                <Rich text={`${labels.permit} ${unit.permit}`} />
+              </p>
+              <a class="btn btn-deep unit-btn" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                {labels.enquire}
+                <span class="sr-only">{labels.enquireSuffix} ({labels.opensNewTab})</span>
+                <Icon name="arrow-right-up-linear" class="btn-icon" />
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p class="stays-footnote" data-reveal>{labels.note}</p>
+    </div>
+  </section>
+
+  <ClosingBand />
+</Base>
+
+<style>
+  .stays-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    max-inline-size: 44rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.9375rem;
+  }
+
+  .stays-note :global(.stays-note-icon) {
+    flex: none;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    color: var(--color-saffron-deep);
+  }
+
+  .stays {
+    padding-top: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+
+  .units {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  }
+
+  @media (min-width: 64rem) {
+    .units {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .unit {
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+    padding: 0.75rem 0.75rem 1.75rem;
+    border-radius: calc(var(--radius-lg) + 0.75rem);
+  }
+
+  .unit-arch {
+    aspect-ratio: 4 / 3.8;
+    background: var(--color-mist);
+  }
+
+  .unit-img {
+    filter: saturate(0.75);
+  }
+
+  .unit-photo-note {
+    position: absolute;
+    left: 50%; /* physical: centred in both directions */
+    inset-block-end: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    translate: -50% 0;
+    min-block-size: 2.25rem;
+    padding-inline: 1rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-gulf-ink) 75%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-white);
+    max-inline-size: calc(100% - 2rem);
+    font-size: 0.8125rem;
+    font-weight: 650;
+    text-align: center;
+  }
+
+  .unit-photo-note :global(svg) {
+    inline-size: 1rem;
+    block-size: 1rem;
+    color: var(--color-saffron);
+  }
+
+  .unit-body {
+    display: grid;
+    gap: 0.75rem;
+    padding-inline: 1rem;
+  }
+
+  .unit-area {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    color: var(--color-gulf);
+  }
+
+  .unit-spec {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-ink-muted);
+  }
+
+  .unit-spec :global(.unit-spec-icon) {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    color: var(--color-saffron-deep);
+  }
+
+  .unit-price {
+    font-weight: 700;
+    color: var(--color-gulf);
+  }
+
+  .unit-permit {
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-line);
+    font-size: 0.875rem;
+    color: var(--color-ink-muted);
+  }
+
+  .unit-btn {
+    justify-self: start;
+    margin-top: 0.5rem;
+  }
+
+  .stays-footnote {
+    margin-top: 2.5rem;
+    text-align: center;
+    color: var(--color-ink-muted);
+  }
+</style>

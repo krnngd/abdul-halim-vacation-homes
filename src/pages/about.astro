@@ -1,0 +1,301 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import GroupStructure from '../components/GroupStructure.astro';
+import ClosingBand from '../components/ClosingBand.astro';
+import Rich from '../components/Rich.astro';
+import Icon from '../components/Icon.astro';
+import about from '../content/about.json';
+
+const { meta, hero, structure, group, purpose, strategy, strengths, leadership } = about;
+---
+
+<Base title={meta.title} description={meta.description}>
+  <PageHeader
+    eyebrow={hero.eyebrow}
+    title={hero.title}
+    intro={hero.intro}
+    image={hero.image}
+    imageAlt={hero.imageAlt}
+    caption={hero.caption}
+  />
+
+  <!-- Business structure -->
+  <section class="section structure" aria-labelledby="structure-title">
+    <div class="container-x structure-grid">
+      <SectionHeading eyebrow={structure.eyebrow} title={structure.title} id="structure-title" />
+      <dl class="facts">
+        {structure.items.map((item) => (
+          <div class="fact" data-reveal>
+            <dt class="label-caps fact-label">{item.label}</dt>
+            <dd class="display-3 fact-value">{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- Group structure -->
+  <section class="section bg-mist" aria-labelledby="group-title">
+    <div class="container-x">
+      <SectionHeading eyebrow={group.eyebrow} title={group.title} id="group-title" class="group-heading" />
+      <GroupStructure variant="detail" primaryLabel={group.primaryLabel} associatedLabel={group.associatedLabel} />
+    </div>
+  </section>
+
+  <!-- Purpose -->
+  <section class="purpose on-dark" aria-labelledby="purpose-title">
+    <div class="purpose-pattern" aria-hidden="true"><div class="pattern pattern-girih"></div></div>
+    <div class="container-x purpose-inner">
+      <h2 id="purpose-title" class="eyebrow">{purpose.eyebrow}</h2>
+      <p class="purpose-text" data-split>{purpose.text}</p>
+    </div>
+  </section>
+
+  <!-- Strategic direction -->
+  <section class="section" aria-labelledby="strategy-title">
+    <div class="container-x split">
+      <SectionHeading eyebrow={strategy.eyebrow} title={strategy.title} id="strategy-title" class="split-head" />
+      <ol class="strategy-list">
+        {strategy.items.map((item, index) => (
+          <li class="strategy-item" data-reveal>
+            <span class="strategy-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <p class="display-3 strategy-text">{item}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Corporate strengths -->
+  <section class="section strengths" aria-labelledby="strengths-title">
+    <div class="container-x">
+      <SectionHeading eyebrow={strengths.eyebrow} title={strengths.title} id="strengths-title" class="strengths-heading" />
+      <ol class="strengths-grid">
+        {strengths.items.map((item, index) => (
+          <li class="strength surface hover-card" data-reveal>
+            <span class="strength-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <h3 class="display-3 strength-title">{item.title}</h3>
+            <Rich as="p" class="strength-body" text={item.body} />
+          </li>
+        ))}
+      </ol>
+
+      <div class="leadership-teaser gborder" data-reveal>
+        <div>
+          <p class="eyebrow">{leadership.eyebrow}</p>
+          <p class="teaser-text">{leadership.text}</p>
+        </div>
+        <a class="btn btn-gulf" href={url(leadership.link.href)}>
+          {leadership.link.label}
+          <Icon name="arrow-right-linear" class="btn-icon" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <ClosingBand />
+</Base>
+
+<style>
+  .structure-grid {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .facts {
+    display: grid;
+    gap: 0;
+  }
+
+  .fact {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .fact:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .fact-label {
+    color: var(--color-saffron-deep);
+  }
+
+  .fact-value {
+    color: var(--color-gulf);
+  }
+
+  @media (min-width: 64rem) {
+    .structure-grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .fact {
+      grid-template-columns: 11rem minmax(0, 1fr);
+      align-items: baseline;
+      gap: 2rem;
+    }
+  }
+
+  .group-heading {
+    margin-bottom: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
+  }
+
+  /* Purpose ------------------------------------------------------------- */
+  .purpose {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(160deg, var(--color-gulf), var(--color-gulf-deep));
+    padding-block: clamp(6rem, 4rem + 8vw, 11rem);
+  }
+
+  .purpose-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    mask-image: radial-gradient(55% 90% at 50% 50%, #000 0%, transparent 80%);
+  }
+
+  .purpose-pattern .pattern {
+    --pattern-opacity: 0.1;
+    --pattern-size: 120px;
+  }
+
+  .purpose-inner {
+    display: grid;
+    justify-items: center;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .purpose-text {
+    max-inline-size: 24ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.375rem, 1.5rem + 3.6vw, 5rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  /* Strategy -------------------------------------------------------------- */
+  .split {
+    display: grid;
+    gap: 3rem;
+  }
+
+  @media (min-width: 64rem) {
+    .split {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .split-head {
+      position: sticky;
+      top: 8rem;
+    }
+  }
+
+  .strategy-list {
+    display: grid;
+  }
+
+  .strategy-item {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 2rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .strategy-item:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .strategy-index {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-saffron-deep);
+  }
+
+  .strategy-text {
+    color: var(--color-gulf);
+    font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem);
+  }
+
+  /* Strengths --------------------------------------------------------------- */
+  .strengths {
+    padding-top: 0;
+  }
+
+  .strengths-heading {
+    margin-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+
+  .strengths-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .strengths-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .strength {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    padding: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+  }
+
+  .strength-index {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--color-saffron-deep);
+    margin-bottom: 1.5rem;
+  }
+
+  .strength-title {
+    color: var(--color-gulf);
+  }
+
+  .strength-body {
+    color: var(--color-ink-muted);
+  }
+
+  .leadership-teaser {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: clamp(3rem, 2rem + 3vw, 5rem);
+    padding: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    box-shadow: var(--shadow-md);
+  }
+
+  .teaser-text {
+    margin-top: 1rem;
+    max-inline-size: 34ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.375rem);
+    line-height: 1.2;
+    color: var(--color-gulf);
+  }
+</style>

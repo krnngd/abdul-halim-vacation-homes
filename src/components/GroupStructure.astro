@@ -1,0 +1,147 @@
+---
+/*
+ * Group structure diagram: the primary entity above, two associated
+ * companies below, joined by fine Saffron connectors.
+ */
+import site from '../content/site.json';
+import Rich from './Rich.astro';
+
+interface Props {
+  variant: 'summary' | 'detail';
+  primaryLabel?: string;
+  associatedLabel?: string;
+}
+
+const { variant, primaryLabel = 'Primary entity', associatedLabel = 'Associated company' } = Astro.props;
+const [primary, ...associated] = site.entities;
+const describe = (entity: (typeof site.entities)[number]) => (variant === 'summary' ? entity.summary : entity.role);
+---
+
+<div class="group-tree">
+  <article class="entity entity-primary gborder" data-reveal>
+    <span class="entity-star ornament-star" aria-hidden="true"></span>
+    <p class="entity-tag is-primary">{primaryLabel}</p>
+    <h3 class="display-3 entity-name">{primary.name}</h3>
+    <Rich as="p" class="entity-desc" text={describe(primary)} />
+  </article>
+
+  <div class="group-connector" aria-hidden="true"></div>
+
+  <ul class="entity-children">
+    {associated.map((entity) => (
+      <li class="entity entity-associated" data-reveal>
+        <p class="entity-tag">{associatedLabel}</p>
+        <h3 class="display-3 entity-name">{entity.name}</h3>
+        <Rich as="p" class="entity-desc" text={describe(entity)} />
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .group-tree {
+    position: relative;
+    display: grid;
+    justify-items: center;
+  }
+
+  .entity {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+    inline-size: 100%;
+    padding: clamp(1.75rem, 1.4rem + 1.4vw, 2.75rem);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    box-shadow: var(--shadow-md);
+  }
+
+  .entity-primary {
+    max-inline-size: 40rem;
+    padding-block-start: clamp(2.25rem, 1.8rem + 1.6vw, 3.25rem);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    justify-items: center;
+  }
+
+  .entity-star {
+    position: absolute;
+    inset-block-start: -1.125rem;
+    left: 50%; /* physical: centred in both directions */
+    translate: -50% 0;
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+  }
+
+  .entity-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    min-block-size: 1.75rem;
+    padding: 0 0.75rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-mist);
+    color: var(--color-gulf);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .entity-tag.is-primary {
+    justify-self: center;
+    background: var(--color-gulf);
+    color: var(--color-white);
+  }
+
+  .entity-name {
+    color: var(--color-gulf);
+  }
+
+  .entity-desc {
+    color: var(--color-ink-muted);
+  }
+
+  .group-connector {
+    position: relative;
+    inline-size: 1px;
+    block-size: 3.5rem;
+    background: var(--color-saffron);
+  }
+
+  .entity-children {
+    position: relative;
+    display: grid;
+    gap: 1.5rem;
+    inline-size: 100%;
+  }
+
+  @media (min-width: 48rem) {
+    .entity-children {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+      padding-top: 3rem;
+    }
+
+    /* Horizontal bar and two drops to the associated cards. */
+    .entity-children::before {
+      content: "";
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline: 25%;
+      block-size: 1px;
+      background: var(--color-saffron);
+    }
+
+    .entity-associated::before {
+      content: "";
+      position: absolute;
+      inset-block-start: -3rem;
+      left: 50%; /* physical: centred in both directions */
+      inline-size: 1px;
+      block-size: 3rem;
+      background: var(--color-saffron);
+    }
+  }
+</style>

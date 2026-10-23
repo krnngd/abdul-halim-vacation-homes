@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "title": "Portfolio | Abdul Halim Vacation Homes",
+    "description": "Active residential properties under the operation of Abdul Halim Vacation Homes in Al Satwa, Al Jafiliya, Naif, Deira and Al Bada'a, Dubai."
+  },
+  "hero": {
+    "eyebrow": "Portfolio",
+    "title": "Portfolio",
+    "intro": "Active residential properties under our operation across Dubai."
+  },
+  "filter": {
+    "label": "Filter by area",
+    "all": "All areas",
+    "resultsAnnouncement": {
+      "one": "Showing {count} property in {area}",
+      "other": "Showing {count} properties in {area}"
+    },
+    "resultsAll": {
+      "one": "Showing {count} property",
+      "other": "Showing all {count} properties"
+    }
+  },
+  "labels": {
+    "status": "Active operation",
+    "area": "Area",
+    "type": "Building type",
+    "units": "Units",
+    "unitsValue": "[X]",
+    "view": "View details",
+    "viewGallery": "View gallery",
+    "photos": "photos",
+    "close": "Close",
+    "previous": "Previous image",
+    "next": "Next image",
+    "imageOf": "Image {n} of {total}",
+    "galleryType": "Gallery",
+    "statusLabel": "Status"
+  },
+  "areas": [
+    {
+      "id": "al-satwa",
+      "name": "Al Satwa"
+    },
+    {
+      "id": "al-jafiliya",
+      "name": "Al Jafiliya"
+    },
+    {
+      "id": "naif-deira",
+      "name": "Naif, Deira"
+    },
+    {
+      "id": "al-badaa",
+      "name": "Al Bada'a"
+    }
+  ],
+  "groups": [
+    {
+      "area": "al-satwa",
+      "title": "Al Satwa (Double Baqala)",
+      "buildings": [
+        {
+          "id": "satwa-building-1",
+          "name": "Building 1",
+          "type": "Mixed-use residential",
+          "description": "Multi-storey residential building with ground-floor retail",
+          "images": [
+            {
+              "file": "satwa-mixed-use-residential.png",
+              "alt": "Mixed-use residential building, Al Satwa"
+            },
+            {
+              "file": "hero-satwa-corner-building.png",
+              "alt": "Mixed-use residential building, Al Satwa"
+            }
+          ]
+        },
+        {
+          "id": "satwa-building-2",
+          "name": "Building 2",
+          "type": "Multi-unit residential",
+          "description": "Three-storey apartment building with dedicated parking",
+          "images": [
+            {
+              "file": "satwa-multi-unit-residential.png",
+              "alt": "Multi-unit residential building, Al Satwa"
+            }
+          ]
+        },
+        {
+          "id": "satwa-building-3",
+          "name": "Building 3",
+          "type": "Independent villa",
+          "description": "Contemporary multi-level independent residence",
+          "images": [
+            {
+              "file": "satwa-independent-villa.png",
+              "alt": "Independent villa, Al Satwa"
+            }
+          ]
+        },
+        {
+          "id": "satwa-gallery",
+          "name": "Gallery",
+          "type": "Gallery",
+          "isGallery": true,
+          "description": "Additional views of the area's buildings",
+          "images": [
+            {
+              "file": "satwa-double-baqala-01.jpg",
+              "alt": "Multi-unit residential building, Al Satwa"
+            },
+            {
+              "file": "satwa-double-baqala-02.jpg",
+              "alt": "Mixed-use residential building, Al Satwa"
+            },
+            {
+              "file": "satwa-double-baqala-03.jpg",
+              "alt": "Mixed-use residential building, Al Satwa"
+            },
+            {
+              "file": "satwa-double-baqala-04.jpg",
+              "alt": "Independent villa, Al Satwa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "al-satwa",
+      "title": "Al Satwa (central)",
+      "buildings": [
+        {
+          "id": "satwa-central",
+          "name": "Residential buildings",
+          "type": "Multi-unit residential",
+          "description": "Low-rise residential buildings in central Al Satwa",
+          "images": [
+            {
+              "file": "satwa-central-01.jpg",
+              "alt": "Multi-unit residential building, Al Satwa"
+            },
+            {
+              "file": "satwa-central-02.jpg",
+              "alt": "Multi-unit residential building, Al Satwa"
+            },
+            {
+              "file": "satwa-central-03.jpg",
+              "alt": "Multi-unit residential building, Al Satwa"
+            },
+            {
+              "file": "about-satwa-building.png",
+              "alt": "Multi-unit residential building, Al Satwa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "al-jafiliya",
+      "title": "Al Jafiliya",
+      "buildings": [
+        {
+          "id": "jafiliya-villa",
+          "name": "Villa",
+          "type": "Independent villa",
+          "description": "Private residence with traditional architectural finishes",
+          "images": [
+            {
+              "file": "jafiliya-independent-villa.jpg",
+              "alt": "Independent villa, Al Jafiliya"
+            }
+          ]
+        },
+        {
+          "id": "jafiliya-complex",
+          "name": "Residential complex",
+          "type": "Multi-unit residential",
+          "description": "Multi-storey residential building with direct street access",
+          "images": [
+            {
+              "file": "jafiliya-multi-unit-residential.jpg",
+              "alt": "Multi-unit residential building, Al Jafiliya"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "naif-deira",
+      "title": "Naif, Deira",
+      "buildings": [
+        {
+          "id": "naif-building",
+          "name": "Residential building",
+          "type": "Multi-tenant residential",
+          "description": "Active residential building in Naif, one of Deira's busiest commercial and residential districts, under full operational management",
+          "images": [
+            {
+              "file": "naif-deira-01.jpg",
+              "alt": "Multi-tenant residential building, Naif, Deira"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "al-badaa",
+      "title": "Al Bada'a",
+      "buildings": [
+        {
+          "id": "badaa-buildings",
+          "name": "Residential buildings",
+          "type": "Residential with ground-floor retail",
+          "description": "Residential properties in Al Bada'a",
+          "images": [
+            {
+              "file": "al-badaa-01.jpg",
+              "alt": "Residential building with ground-floor retail, Al Bada'a"
+            },
+            {
+              "file": "al-badaa-02.jpg",
+              "alt": "Residential building with ground-floor retail, Al Bada'a"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  id: string;
+  as?: 'h2' | 'h3';
+  class?: string;
+  align?: 'start' | 'center';
+}
+
+const { eyebrow, title, id, as: Tag = 'h2', class: className, align = 'start' } = Astro.props;
+// An eyebrow that repeats the heading adds nothing, so it is dropped.
+const showEyebrow = Boolean(eyebrow) && eyebrow?.trim().toLowerCase() !== title.trim().toLowerCase();
+---
+
+<div class:list={['section-heading', `is-${align}`, className]}>
+  {showEyebrow && <p class="eyebrow" data-reveal>{eyebrow}</p>}
+  <Tag id={id} class="display-2 section-title" data-split>{title}</Tag>
+  <slot />
+</div>
+
+<style>
+  .section-heading {
+    display: grid;
+    gap: 1.25rem;
+    max-inline-size: 48rem;
+  }
+
+  .is-center {
+    justify-items: center;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .section-title {
+    color: var(--color-gulf);
+  }
+
+  :global(.on-dark) .section-title {
+    color: var(--color-white);
+  }
+</style>

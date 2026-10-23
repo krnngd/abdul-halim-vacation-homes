@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import { getImage, widthsFor } from '../lib/images';
+
+interface Props {
+  name: string;
+  alt: string;
+  sizes: string;
+  class?: string;
+  priority?: boolean;
+  maxWidth?: number;
+  position?: string;
+}
+
+const { name, alt, sizes, class: className, priority = false, maxWidth, position } = Astro.props;
+const source = getImage(name);
+const widths = widthsFor(source, maxWidth);
+---
+
+<Image
+  src={source}
+  alt={alt}
+  widths={widths}
+  sizes={sizes}
+  format="webp"
+  quality={74}
+  loading={priority ? 'eager' : 'lazy'}
+  fetchpriority={priority ? 'high' : 'auto'}
+  decoding={priority ? 'sync' : 'async'}
+  class={className}
+  style={position ? `object-position: ${position}` : undefined}
+/>

@@ -1,0 +1,64 @@
+---
+import { stripBase, url } from '../lib/url';
+import '../styles/global.css';
+import site from '../content/site.json';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import StressToggle from '../dev/StressToggle.astro';
+import manropeUrl from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+import cormorantUrl from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2?url';
+
+interface Props {
+  title: string;
+  description: string;
+  bodyClass?: string;
+}
+
+const { title, description, bodyClass } = Astro.props;
+const sitePath = stripBase(Astro.url.pathname, import.meta.env.BASE_URL);
+const path = sitePath.endsWith('/') ? sitePath : `${sitePath}/`;
+const htmlClass = site.showPlaceholders ? 'ph-on' : undefined;
+---
+
+<!doctype html>
+<html lang={site.lang} class={htmlClass}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#17435E" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={site.brand.name} />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="preload" href={cormorantUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={manropeUrl} as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('js');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        root.classList.add('motion');
+        // Safety net: never leave content hidden if the motion script fails to start.
+        window.setTimeout(function () {
+          if (!window.__motionReady) root.classList.remove('motion');
+        }, 2500);
+      })();
+    </script>
+  </head>
+  <body id="top" class={bodyClass}>
+    <a class="skip-link" href="#main">{site.skipLink}</a>
+    <Nav path={path} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    {import.meta.env.DEV && <StressToggle />}
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>

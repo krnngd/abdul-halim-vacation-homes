@@ -1,0 +1,105 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import legal from '../content/legal.json';
+
+const page = legal.notFound;
+---
+
+<Base title={page.meta.title} description={page.meta.description}>
+  <section class="nf on-dark" aria-labelledby="nf-title">
+    <div class="nf-pattern" aria-hidden="true"><div class="pattern pattern-girih"></div></div>
+    <div class="container-x nf-inner">
+      <div class="arch-wrap nf-arch-wrap" aria-hidden="true">
+        <div class="arch nf-arch">
+          <span class="nf-code">{page.eyebrow}</span>
+        </div>
+        <span class="arch-frame"></span>
+      </div>
+      <div class="nf-copy">
+        <h1 id="nf-title" class="display-1" data-split>{page.title}</h1>
+        <p class="lead nf-body" data-reveal>{page.body}</p>
+        <div class="nf-actions" data-reveal>
+          <a class="btn btn-saffron" href={url(page.home.href)}>
+            {page.home.label}
+            <Icon name="arrow-right-linear" class="btn-icon" />
+          </a>
+          <a class="btn btn-ghost" href={url(page.portfolio.href)}>{page.portfolio.label}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    min-block-size: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: 9rem 6rem;
+    background: linear-gradient(160deg, var(--color-gulf), var(--color-gulf-ink));
+  }
+
+  .nf-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    mask-image: radial-gradient(60% 70% at 30% 50%, #000, transparent 75%);
+  }
+
+  .nf-pattern .pattern {
+    --pattern-opacity: 0.12;
+  }
+
+  .nf-inner {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 64rem) {
+    .nf-inner {
+      grid-template-columns: minmax(0, 0.6fr) minmax(0, 1.4fr);
+      gap: 6rem;
+    }
+  }
+
+  .nf-arch-wrap {
+    position: relative;
+    inline-size: min(100%, 18rem);
+    justify-self: center;
+  }
+
+  .nf-arch {
+    aspect-ratio: 3 / 4;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--color-white) 6%, transparent);
+  }
+
+  .nf-code {
+    font-family: var(--font-display);
+    font-size: 5.5rem;
+    color: var(--color-saffron);
+  }
+
+  .nf-copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+
+  .nf-body {
+    color: var(--color-on-dark-muted);
+  }
+
+  .nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+</style>

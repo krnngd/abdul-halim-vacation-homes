@@ -1,0 +1,113 @@
+---
+import { url } from '../lib/url';
+import site from '../content/site.json';
+import Icon from './Icon.astro';
+
+interface Props {
+  eyebrow?: string;
+  text?: string;
+  label?: string;
+  href?: string;
+  /** Add top spacing when the previous section has its own background. */
+  spaced?: boolean;
+}
+
+const { closing } = site;
+const {
+  eyebrow = closing.eyebrow,
+  text = closing.text,
+  label = closing.button.label,
+  href = closing.button.href,
+  spaced = false,
+} = Astro.props;
+---
+
+<section class:list={['closing-wrap', { 'is-spaced': spaced }]} aria-labelledby="closing-title">
+  <div class="container-x">
+    <div class="closing on-dark" data-reveal>
+      <div class="pattern pattern-mashrabiya closing-lattice" aria-hidden="true"></div>
+      <div class="closing-arch" aria-hidden="true"></div>
+      <span class="closing-star ornament-star" aria-hidden="true"></span>
+
+      <div class="closing-content">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 id="closing-title" class="display-2 closing-title" data-split>{text}</h2>
+        <a class="btn btn-saffron closing-btn" href={url(href)}>
+          {label}
+          <Icon name="arrow-right-linear" class="btn-icon" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .closing-wrap {
+    padding-block: 0 var(--section-y);
+  }
+
+  .closing-wrap.is-spaced {
+    padding-block-start: var(--section-y);
+  }
+
+  .closing {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(90% 120% at 85% 0%, var(--color-gulf-soft) 0%, transparent 60%),
+      var(--color-gulf);
+    box-shadow: var(--shadow-lg);
+    padding: clamp(3rem, 2rem + 5vw, 6.5rem) clamp(1.5rem, 1rem + 4vw, 6rem);
+  }
+
+  .closing-lattice {
+    --pattern-color: var(--color-white);
+    --pattern-opacity: 0.07;
+    --pattern-size: 32px;
+    --pattern-fade: linear-gradient(105deg, transparent 30%, #000 85%);
+  }
+
+  /* A tall arch outline echoing the image masks elsewhere. */
+  .closing-arch {
+    position: absolute;
+    inset-block: 12% -30%;
+    inset-inline-end: clamp(-6rem, -4rem + 2vw, 2rem);
+    inline-size: clamp(14rem, 10rem + 18vw, 26rem);
+    border: 1px solid color-mix(in srgb, var(--color-saffron) 45%, transparent);
+    border-radius: 999px 999px 0 0;
+    pointer-events: none;
+  }
+
+  .closing-star {
+    position: absolute;
+    inset-block-start: 6%;
+    inset-inline-end: calc(clamp(-6rem, -4rem + 2vw, 2rem) + clamp(14rem, 10rem + 18vw, 26rem) / 2 - 1rem);
+    inline-size: 2rem;
+    block-size: 2rem;
+  }
+
+  .closing-content {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 1.5rem;
+    max-inline-size: 46rem;
+  }
+
+  .closing-title {
+    color: var(--color-white);
+  }
+
+  .closing-btn {
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 40rem) {
+    .closing-arch,
+    .closing-star {
+      opacity: 0.45;
+    }
+  }
+</style>

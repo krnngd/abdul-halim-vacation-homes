@@ -1,0 +1,823 @@
+@import "tailwindcss";
+@import "@fontsource/cormorant-garamond/latin-500.css";
+@import "@fontsource/cormorant-garamond/latin-600.css";
+@import "lenis/dist/lenis.css";
+
+@font-face {
+  font-family: "Manrope Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+/* Metric-matched fallbacks keep layout shift low while web fonts load. */
+@font-face {
+  font-family: "Cormorant Fallback";
+  src: local("Times New Roman"), local("Times");
+  size-adjust: 92%;
+  ascent-override: 98%;
+  descent-override: 30%;
+}
+
+@font-face {
+  font-family: "Manrope Fallback";
+  src: local("Arial"), local("Helvetica");
+  size-adjust: 104%;
+  ascent-override: 102%;
+  descent-override: 29%;
+}
+
+/* ------------------------------------------------------------------
+   Design tokens. Brand palette from the brief, plus a few shades
+   derived from Gulf Blue and Saffron (marked "derived").
+   ------------------------------------------------------------------ */
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+
+  --color-gulf: #17435e;
+  --color-gulf-soft: #215a7c; /* derived: lighter Gulf Blue for gradients */
+  --color-gulf-deep: #0f3047; /* derived: darker Gulf Blue for bands */
+  --color-gulf-ink: #0a2232; /* derived: darkest Gulf Blue for the footer */
+
+  --color-saffron: #d9a441;
+  --color-saffron-soft: #e6bd6c; /* derived: hover state on dark */
+  --color-saffron-deep: #96691a;
+  --color-saffron-deeper: #7c5614; /* derived: hover state for Deep Saffron fills */
+  --color-saffron-wash: #f6ead1; /* derived: placeholder chip on light */
+
+  --color-cloud: #f5f7f8;
+  --color-mist: #e4ecf0;
+  --color-ink: #1f2a33;
+  --color-ink-muted: #4f5b66; /* derived: secondary text, 5.9:1 on Mist */
+  --color-on-dark-muted: #c6d3db; /* derived: secondary text on Gulf Blue */
+  --color-line: #d3dee5; /* derived: decorative hairlines on light */
+  --color-field: #7a91a0; /* derived: form control borders, 3.2:1 on white */
+  --color-error: #a3341f; /* semantic: validation errors, 7.3:1 on white */
+
+  --font-display: "Cormorant Garamond", "Cormorant Fallback", Georgia, serif;
+  --font-sans: "Manrope Variable", "Manrope Fallback", system-ui, sans-serif;
+
+  --radius-xs: 0.5rem;
+  --radius-sm: 0.875rem;
+  --radius-md: 1.5rem;
+  --radius-lg: 2rem;
+  --radius-xl: 2.5rem;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02), 0px 0px 0px 1px rgba(25, 28, 33, 0.08);
+  --shadow-md: 0px 0px 0px 1px rgba(0, 0, 0, 0.06), 0px 1px 1px -0.5px rgba(0, 0, 0, 0.06), 0px 3px 3px -1.5px rgba(0, 0, 0, 0.06), 0px 6px 6px -3px rgba(0, 0, 0, 0.06), 0px 12px 12px -6px rgba(0, 0, 0, 0.06), 0px 24px 24px -12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+
+  --shadow-nav: 0 14px 34px -14px rgba(10, 34, 50, 0.5), 0 2px 6px rgba(10, 34, 50, 0.14);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --breakpoint-xs: 30rem;
+}
+
+:root {
+  --gutter: clamp(1rem, 4.5vw, 5rem);
+  --container: 100rem;
+  --section-y: clamp(5rem, 3.5rem + 6.5vw, 11rem);
+  --nav-top: clamp(0.75rem, 0.5rem + 0.6vw, 1.25rem);
+  --dur-ui: 240ms;
+  --dur-reveal: 800ms;
+  --focus-ring: var(--color-gulf);
+  --link: var(--color-saffron-deep);
+  --ph-bg: var(--color-saffron-wash);
+  --ph-fg: var(--color-ink);
+  --ph-line: var(--color-saffron-deep);
+  color-scheme: light;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    scroll-padding-top: 7rem;
+  }
+
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
+  body {
+    background: var(--color-cloud);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    font-feature-settings: "ss01";
+    font-variant-numeric: lining-nums;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  p, li, dd, figcaption {
+    text-wrap: pretty;
+  }
+
+  /* Layout containers may shrink below their content (large text, long words). */
+  :where(main, footer) :where(div, section, article, header, li, dl, ol, ul, figure, form) {
+    min-width: 0;
+  }
+
+  /* Emails, file names and licence numbers have no natural break points. */
+  dd, address, .ph, a[href^="mailto:"] {
+    overflow-wrap: anywhere;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-saffron);
+    color: var(--color-gulf-ink);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Components
+   ------------------------------------------------------------------ */
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: calc(var(--container) + var(--gutter) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section {
+    position: relative;
+    padding-block: var(--section-y);
+  }
+
+  .on-dark {
+    --focus-ring: var(--color-saffron);
+    --link: var(--color-saffron);
+    --ph-bg: color-mix(in srgb, var(--color-saffron) 16%, transparent);
+    --ph-fg: var(--color-white);
+    --ph-line: var(--color-saffron);
+    color: var(--color-white);
+  }
+
+  /* Typography -------------------------------------------------------- */
+  .display-hero {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.75rem, 1.55rem + 4.9vw, 6.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+  }
+
+  .display-1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.5rem, 1.6rem + 3.6vw, 5.25rem);
+    line-height: 1.04;
+    letter-spacing: -0.012em;
+  }
+
+  .display-2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.125rem, 1.5rem + 2.4vw, 3.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+
+  .display-3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 1.3rem + 0.7vw, 1.875rem);
+    line-height: 1.18;
+  }
+
+  .lead {
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+    line-height: 1.65;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-saffron-deep);
+  }
+
+  .eyebrow::before {
+    content: "";
+    inline-size: 0.75rem;
+    block-size: 0.75rem;
+    flex: none;
+    background: var(--color-saffron);
+    mask: url("../assets/ornaments/star.svg") center / contain no-repeat;
+  }
+
+  /* Deep Saffron fails AA on Mist, so eyebrows on Mist bands use Gulf Blue. */
+  .bg-mist .eyebrow {
+    color: var(--color-gulf);
+  }
+
+  /* Dark surfaces win, even when nested inside a Mist band. */
+  .on-dark .eyebrow,
+  .bg-mist .on-dark .eyebrow,
+  .eyebrow.is-light {
+    color: var(--color-saffron);
+  }
+
+  .label-caps {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .text-link {
+    color: var(--link);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--dur-ui) ease, color var(--dur-ui) ease;
+  }
+
+  .text-link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Placeholder chips (Section 9). Remove the ph-on class on <html> to turn highlighting off. */
+  .ph-on .ph {
+    display: inline;
+    padding: 0.05em 0.35em;
+    border-radius: 0.375rem;
+    background: var(--ph-bg);
+    color: var(--ph-fg);
+    outline: 1px dashed var(--ph-line);
+    outline-offset: -1px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    font-family: var(--font-sans);
+    font-size: 0.86em;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* Buttons ----------------------------------------------------------- */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.9375rem;
+    line-height: 1.25rem;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      transform 160ms var(--ease-out),
+      background-color var(--dur-ui) ease,
+      color var(--dur-ui) ease,
+      border-color var(--dur-ui) ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-sm {
+    min-height: 2.75rem;
+    padding: 0 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .btn .btn-icon {
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    transition: transform 400ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover .btn-icon {
+      transform: translateX(3px);
+    }
+
+    .btn:hover .btn-icon:dir(rtl) {
+      transform: translateX(-3px);
+    }
+  }
+
+  /* Directional arrows mirror for the planned Arabic (RTL) version. */
+  .btn-icon:dir(rtl),
+  .arrow-dot svg:dir(rtl),
+  .building-open-icon svg:dir(rtl) {
+    scale: -1 1;
+  }
+
+  /* On Gulf Blue: Saffron fill, Gulf Blue text (brief, Section 3). */
+  .btn-saffron {
+    background: var(--color-saffron);
+    color: var(--color-gulf-ink);
+  }
+
+  .btn-saffron:hover {
+    background: var(--color-saffron-soft);
+  }
+
+  /* On light backgrounds: Deep Saffron fill, white text. */
+  .btn-deep {
+    background: var(--color-saffron-deep);
+    color: var(--color-white);
+  }
+
+  .btn-deep:hover {
+    background: var(--color-saffron-deeper);
+  }
+
+  .btn-gulf {
+    background: var(--color-gulf);
+    color: var(--color-white);
+  }
+
+  .btn-gulf:hover {
+    background: var(--color-gulf-deep);
+  }
+
+  .btn-ghost {
+    border: 1px solid color-mix(in srgb, var(--color-white) 36%, transparent);
+    color: var(--color-white);
+    background: color-mix(in srgb, var(--color-white) 4%, transparent);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-saffron);
+    background: color-mix(in srgb, var(--color-white) 8%, transparent);
+  }
+
+  .btn-outline {
+    border: 1px solid color-mix(in srgb, var(--color-gulf) 28%, transparent);
+    color: var(--color-gulf);
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--color-gulf);
+    background: color-mix(in srgb, var(--color-gulf) 4%, transparent);
+  }
+
+  .btn[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .btn[aria-disabled="true"]:active {
+    transform: none;
+  }
+
+  /* Arrow link ---------------------------------------------------------- */
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 650;
+    font-size: 0.9375rem;
+    color: var(--color-gulf);
+  }
+
+  .arrow-link .arrow-dot {
+    display: grid;
+    place-items: center;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in srgb, var(--color-gulf) 22%, transparent);
+    transition: background-color var(--dur-ui) ease, border-color var(--dur-ui) ease, transform 400ms var(--ease-out);
+  }
+
+  .arrow-link .arrow-dot svg {
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+  }
+
+  .on-dark .arrow-link {
+    color: var(--color-white);
+  }
+
+  .on-dark .arrow-link .arrow-dot {
+    border-color: color-mix(in srgb, var(--color-white) 30%, transparent);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .arrow-link:hover .arrow-dot {
+      background: var(--color-gulf);
+      border-color: var(--color-gulf);
+      color: var(--color-white);
+      transform: translateX(4px);
+    }
+
+    .on-dark .arrow-link:hover .arrow-dot {
+      background: var(--color-saffron);
+      border-color: var(--color-saffron);
+      color: var(--color-gulf-ink);
+    }
+  }
+
+  /* Surfaces ------------------------------------------------------------ */
+  .surface {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Thin Saffron gradient border (masked, so the fill stays untouched). */
+  .gborder {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .gborder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--color-saffron) 95%, transparent),
+      color-mix(in srgb, var(--color-saffron) 18%, transparent) 42%,
+      color-mix(in srgb, var(--color-saffron) 12%, transparent) 62%,
+      color-mix(in srgb, var(--color-saffron) 80%, transparent)
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Card whose Saffron border and lift appear on hover. */
+  .hover-card {
+    position: relative;
+    isolation: isolate;
+    transition: transform 600ms var(--ease-out);
+  }
+
+  .hover-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(150deg, var(--color-saffron), color-mix(in srgb, var(--color-saffron) 15%, transparent) 50%, var(--color-saffron));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+  }
+
+  .hover-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transition: opacity 600ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .hover-card:focus-within::before {
+    opacity: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hover-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .hover-card:hover::before,
+    .hover-card:hover::after {
+      opacity: 1;
+    }
+  }
+
+  /* Arch masks: a semicircular top whatever the width. */
+  .arch-wrap {
+    position: relative;
+    container-type: inline-size;
+  }
+
+  .arch {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50cqi 50cqi var(--radius-lg) var(--radius-lg);
+    isolation: isolate;
+  }
+
+  .arch-frame {
+    position: absolute;
+    inset: -0.875rem;
+    border: 1px solid color-mix(in srgb, var(--color-saffron) 55%, transparent);
+    border-radius: calc(50cqi + 0.875rem) calc(50cqi + 0.875rem) calc(var(--radius-lg) + 0.875rem) calc(var(--radius-lg) + 0.875rem);
+    pointer-events: none;
+  }
+
+  .media-cover {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* Geometric pattern layers (decorative). */
+  .pattern {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: var(--pattern-color, var(--color-saffron));
+    opacity: var(--pattern-opacity, 0.1);
+  }
+
+  /* The tile mask composes with an optional fade set through --pattern-fade. */
+  .pattern-girih,
+  .pattern-mashrabiya {
+    mask-image: var(--pattern-tile), var(--pattern-fade, linear-gradient(#000, #000));
+    mask-size: var(--pattern-size, 96px), 100% 100%;
+    mask-repeat: repeat, no-repeat;
+    mask-position: 0 0, 0 0;
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
+  }
+
+  .pattern-girih {
+    --pattern-tile: url("../assets/ornaments/girih.svg");
+  }
+
+  .pattern-mashrabiya {
+    --pattern-tile: url("../assets/ornaments/mashrabiya.svg");
+    --pattern-size: 30px;
+  }
+
+  .ornament-star {
+    background: var(--ornament-color, var(--color-saffron));
+    mask: url("../assets/ornaments/star.svg") center / contain no-repeat;
+  }
+
+  /* Section divider: hairline, star, hairline. */
+  .divider-star {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-saffron);
+  }
+
+  .divider-star::before,
+  .divider-star::after {
+    content: "";
+    flex: 1;
+    block-size: 1px;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-saffron) 70%, transparent));
+  }
+
+  .divider-star::after {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-saffron) 70%, transparent), transparent);
+  }
+
+  .divider-star > span {
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+  }
+
+  /* Icon tile used in cards. */
+  .icon-tile {
+    display: grid;
+    place-items: center;
+    inline-size: 3.25rem;
+    block-size: 3.25rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-gulf);
+    background: var(--color-mist);
+    transition: background-color 400ms ease, color 400ms ease;
+  }
+
+  .icon-tile svg {
+    inline-size: 1.625rem;
+    block-size: 1.625rem;
+  }
+
+  .group:hover .icon-tile,
+  .group:focus-within .icon-tile {
+    background: var(--color-gulf);
+    color: var(--color-saffron);
+  }
+
+  /* Skip link */
+  .skip-link {
+    position: fixed;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-saffron);
+    color: var(--color-gulf-ink);
+    font-weight: 700;
+    transform: translateY(-160%);
+    transition: transform 300ms var(--ease-out);
+  }
+
+  .skip-link:focus-visible {
+    transform: none;
+    outline-color: var(--color-gulf-ink);
+  }
+
+  /* Form controls ------------------------------------------------------- */
+  .field-label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 650;
+    color: var(--color-gulf);
+  }
+
+  .field-label .field-hint {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-ink-muted);
+  }
+
+  .field {
+    display: block;
+    inline-size: 100%;
+    min-height: 3.25rem;
+    margin-top: 0.5rem;
+    padding: 0.8125rem 1rem;
+    border: 1px solid var(--color-field);
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    transition: border-color var(--dur-ui) ease, box-shadow var(--dur-ui) ease;
+  }
+
+  .field:hover {
+    border-color: var(--color-gulf-soft);
+  }
+
+  .field:focus-visible {
+    outline: none;
+    border-color: var(--color-gulf);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gulf) 18%, transparent);
+  }
+
+  .field[aria-invalid="true"] {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 12%, transparent);
+  }
+
+  textarea.field {
+    min-height: 9rem;
+    resize: vertical;
+  }
+
+  select.field {
+    appearance: none;
+    padding-inline-end: 3rem;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-gulf) 50%), linear-gradient(135deg, var(--color-gulf) 50%, transparent 50%);
+    background-position: calc(100% - 1.5rem) 50%, calc(100% - 1.125rem) 50%;
+    background-size: 0.375rem 0.375rem;
+    background-repeat: no-repeat;
+  }
+
+  .field-error {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    color: var(--color-error);
+  }
+
+  .field-error[hidden] {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Motion states. Hidden states apply only when html.motion is set by
+   the head script (motion allowed and JavaScript running).
+   ------------------------------------------------------------------ */
+@layer utilities {
+  html.motion [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+
+  html.motion [data-reveal-image] {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  html.motion [data-split]:not(.is-split) {
+    visibility: hidden;
+  }
+
+  .split-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-block-end: 0.12em;
+    margin-block-end: -0.12em;
+  }
+
+  .split-word {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .scrub-word {
+    transition: opacity 500ms var(--ease-out);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-card,
+  .btn,
+  .arrow-link .arrow-dot {
+    transition-property: opacity, background-color, color, border-color;
+  }
+
+  .hover-card:hover {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-nav {
+    background: var(--color-gulf) !important;
+    backdrop-filter: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .ph-on .ph {
+    outline: 1px dashed CanvasText;
+  }
+
+  .btn {
+    border: 1px solid ButtonText;
+  }
+}

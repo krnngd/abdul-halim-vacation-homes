@@ -1,0 +1,21 @@
+{
+  "_note": "Dev-only stress fixture. Realistic, longest-plausible values for every pending fact. Never shipped.",
+  "placeholders": {
+    "[X]": "1,284",
+    "[Year]": "2009",
+    "[Licence No.]": "CN-3925841 / 1084573-002",
+    "[Permit No.]": "DTCM-HH-2024-0118746-A",
+    "[Bedrooms]": "3 bedrooms plus maid's room",
+    "[Max guests]": "Up to 8 guests",
+    "[email]": "partnerships.enquiries@abdulhalimvacationhomesrental.ae",
+    "[hours]": "Monday to Saturday, 8:30 am to 6:30 pm; Friday 8:30 am to 12:00 pm",
+    "[frequency]": "fortnightly",
+    "[time]": "Within 4 working hours for urgent repairs, 2 working days otherwise",
+    "[Responsibility]": "Oversees licensing renewals, tenant relations and planned maintenance contracts across the Al Satwa and Al Jafiliya buildings",
+    "[confirm role]": "and tenancy contract registration (Ejari)",
+    "[Content to be provided]": "This policy explains how Abdul Halim Vacation Homes Rental L.L.C collects, uses and retains personal information submitted through this website, including enquiry details and correspondence.",
+    "[confirm which number is for WhatsApp]": "",
+    "[corporate-profile.pdf]": "Abdul-Halim-Vacation-Homes-Corporate-Profile-2025-EN.pdf",
+    "[Area]": "Al Satwa, near Al Wasl Road"
+  }
+}

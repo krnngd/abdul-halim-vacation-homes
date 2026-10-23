@@ -1,0 +1,19 @@
+---
+/*
+ * Renders content copy with placeholder chips and inline links.
+ * rich() escapes the source text first, so set:html is safe here.
+ */
+import type { HTMLTag } from 'astro/types';
+import { rich } from '../lib/text';
+
+interface Props {
+  text: string;
+  as?: HTMLTag;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { text, as: Tag = 'span', class: className, ...rest } = Astro.props;
+---
+
+<Tag class={className} {...rest} set:html={rich(text, import.meta.env.BASE_URL)} />

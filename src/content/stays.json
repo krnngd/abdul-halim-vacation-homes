@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Stays | Abdul Halim Vacation Homes",
+    "description": "Furnished holiday homes in central Dubai, operated under Department of Economy and Tourism permits. Enquire by WhatsApp."
+  },
+  "hero": {
+    "eyebrow": "Stays",
+    "title": "Stays",
+    "intro": "Furnished holiday homes in central Dubai, operated under Department of Economy and Tourism permits."
+  },
+  "labels": {
+    "photoNote": "Photo coming soon",
+    "from": "From AED",
+    "perNight": "/ night",
+    "permit": "Permit No.",
+    "enquire": "Enquire",
+    "enquireSuffix": "on WhatsApp",
+    "opensNewTab": "opens WhatsApp in a new tab",
+    "whatsappLabel": "WhatsApp",
+    "note": "Enquiries are handled directly by our team. There is no online booking or payment."
+  },
+  "units": [
+    { "id": "unit-1", "image": "satwa-central-01.jpg", "imageAlt": "Multi-unit residential building, Al Satwa", "area": "[Area]", "bedrooms": "[Bedrooms]", "guests": "[Max guests]", "price": "[X]", "permit": "[Permit No.]" },
+    { "id": "unit-2", "image": "satwa-central-03.jpg", "imageAlt": "Multi-unit residential building, Al Satwa", "area": "[Area]", "bedrooms": "[Bedrooms]", "guests": "[Max guests]", "price": "[X]", "permit": "[Permit No.]" },
+    { "id": "unit-3", "image": "jafiliya-multi-unit-residential.jpg", "imageAlt": "Multi-unit residential building, Al Jafiliya", "area": "[Area]", "bedrooms": "[Bedrooms]", "guests": "[Max guests]", "price": "[X]", "permit": "[Permit No.]" }
+  ],
+  "whatsappMessage": "Hello, I would like to enquire about a holiday home."
+}

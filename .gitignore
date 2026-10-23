@@ -1,0 +1,18 @@
+# Dependencies and build output
+node_modules/
+dist/
+.astro/
+
+# Test and review artefacts
+test-results/
+playwright-report/
+.basecheck/
+
+# Internal client material: keep out of the public repository
+PROJECT_BRIEF.md
+*.pptx
+
+# Local editor/agent settings
+.claude/
+# Unconfirmed person (brief: do not use)
+assets/images/leadership-portrait.png

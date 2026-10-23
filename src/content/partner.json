@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "title": "Partner With Us | Abdul Halim Vacation Homes",
+    "description": "Speak directly with the partners of Abdul Halim Vacation Homes about operating and looking after your residential property in Dubai."
+  },
+  "hero": {
+    "eyebrow": "Partner With Us",
+    "title": "Speak directly with our partners",
+    "intro": "Whether you own a single villa or a full building, speak directly with our partners about how we can operate and look after your property."
+  },
+  "offices": {
+    "eyebrow": "Offices",
+    "title": "Offices",
+    "addressLabel": "Address",
+    "phoneLabel": "Phone",
+    "showMap": "Show map",
+    "openMaps": "Open in Google Maps",
+    "mapTitle": "Map location",
+    "mapNote": "The map loads from Google Maps when you choose to show it.",
+    "opensNewTab": "opens in a new tab"
+  },
+  "contact": {
+    "emailLabel": "Email",
+    "hoursLabel": "Office hours",
+    "whatsappLabel": "WhatsApp"
+  },
+  "form": {
+    "eyebrow": "Proposal enquiry",
+    "title": "Proposal enquiry",
+    "intro": "Tell us about your property. Fields marked required must be completed.",
+    "required": "Required",
+    "optional": "Optional",
+    "fields": {
+      "fullName": {
+        "label": "Full name",
+        "autocomplete": "name",
+        "required": true
+      },
+      "organisation": {
+        "label": "Organisation",
+        "autocomplete": "organization",
+        "required": false
+      },
+      "role": {
+        "label": "Role",
+        "autocomplete": "organization-title",
+        "required": false
+      },
+      "phone": {
+        "label": "Phone",
+        "autocomplete": "tel",
+        "required": true
+      },
+      "email": {
+        "label": "Email",
+        "autocomplete": "email",
+        "required": true
+      },
+      "location": {
+        "label": "Property location (area)",
+        "required": true
+      },
+      "propertyType": {
+        "label": "Property type",
+        "required": true,
+        "placeholder": "Select a property type",
+        "options": [
+          "Villa",
+          "Apartment building",
+          "Mixed-use",
+          "Other"
+        ]
+      },
+      "units": {
+        "label": "Number of units",
+        "required": false
+      },
+      "message": {
+        "label": "Message",
+        "required": false
+      }
+    },
+    "errors": {
+      "required": "Enter your {field}.",
+      "select": "Select a property type.",
+      "email": "Enter an email address in the format name@example.com.",
+      "phone": "Enter a phone number using digits, spaces and an optional + sign.",
+      "units": "Enter the number of units as a whole number.",
+      "summary": "Please correct the highlighted fields."
+    },
+    "submit": "Send enquiry",
+    "success": {
+      "title": "Thank you for your enquiry",
+      "body": "Our partners will contact you to arrange an initial meeting.",
+      "sampleNote": "Sample site: this form does not send any data.",
+      "reset": "Send another enquiry"
+    }
+  },
+  "download": {
+    "eyebrow": "Download",
+    "title": "Corporate Profile (PDF)",
+    "file": "[corporate-profile.pdf]",
+    "note": "File to be supplied"
+  }
+}

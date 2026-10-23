@@ -1,0 +1,546 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+import Rich from '../components/Rich.astro';
+import partner from '../content/partner.json';
+import site from '../content/site.json';
+import type { FieldRule } from '../scripts/validation';
+
+const { meta, hero, offices, contact, form, download } = partner;
+const { fields, errors } = form;
+
+const kindFor: Record<string, FieldRule['kind']> = {
+  email: 'email',
+  phone: 'phone',
+  propertyType: 'select',
+  units: 'integer',
+};
+const rules: FieldRule[] = Object.entries(fields).map(([name, field]) => ({
+  name,
+  label: field.label,
+  required: field.required,
+  kind: kindFor[name] ?? 'text',
+}));
+const formConfig = JSON.stringify({ rules, messages: errors });
+
+const textFields = [
+  { name: 'fullName', type: 'text', half: true },
+  { name: 'organisation', type: 'text', half: true },
+  { name: 'role', type: 'text', half: true },
+  { name: 'phone', type: 'tel', half: true, inputmode: 'tel' },
+  { name: 'email', type: 'email', half: true },
+  { name: 'location', type: 'text', half: true },
+] as const;
+const field = (name: string) => fields[name as keyof typeof fields] as { label: string; required: boolean; autocomplete?: string };
+const mapsHref = (query: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+---
+
+<Base title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} />
+
+  <!-- Offices -->
+  <section class="section offices-section" aria-labelledby="offices-title">
+    <div class="container-x">
+      <SectionHeading eyebrow={offices.eyebrow} title={offices.title} id="offices-title" class="offices-heading" />
+      <ul class="offices">
+        {site.offices.map((office, index) => (
+          <li class="office surface" data-reveal>
+            <div class="office-body">
+              <h3 class="display-3 office-entity">{office.entity}</h3>
+              <dl class="office-details">
+                <div>
+                  <dt><Icon name="map-point-linear" /><span>{offices.addressLabel}</span></dt>
+                  <dd><address>{office.address}</address></dd>
+                </div>
+                <div>
+                  <dt><Icon name="phone-linear" /><span>{offices.phoneLabel}</span></dt>
+                  <dd><a class="text-link" href={office.phoneHref}>{office.phone}</a></dd>
+                </div>
+              </dl>
+            </div>
+            <div class="map" data-map data-map-query={office.mapQuery} data-map-title={`${offices.mapTitle}: ${office.entity}`}>
+              <div class="map-facade" data-map-facade>
+                <div class="pattern pattern-girih map-pattern" aria-hidden="true"></div>
+                <span class="map-pin" aria-hidden="true"><Icon name="map-point-linear" /></span>
+                <div class="map-actions">
+                  <button class="btn btn-gulf btn-sm" type="button" data-map-load>
+                    <Icon name="map-linear" class="btn-icon" />
+                    {offices.showMap}
+                    <span class="sr-only">: {office.entity}</span>
+                  </button>
+                  <a class="map-external" href={mapsHref(office.mapQuery)} target="_blank" rel="noopener noreferrer">
+                    {offices.openMaps}<span class="sr-only"> ({office.entity}, {offices.opensNewTab})</span>
+                    <Icon name="arrow-right-up-linear" />
+                  </a>
+                </div>
+                <p class="map-note">{offices.mapNote}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <dl class="contact-strip" data-reveal>
+        <div>
+          <dt><Icon name="letter-linear" />{contact.emailLabel}</dt>
+          <dd><Rich text={site.contact.email} /></dd>
+        </div>
+        <div>
+          <dt><Icon name="clock-circle-linear" />{contact.hoursLabel}</dt>
+          <dd><Rich text={site.contact.hours} /></dd>
+        </div>
+        <div>
+          <dt><Icon name="chat-round-line-linear" />{contact.whatsappLabel}</dt>
+          <dd>{site.whatsapp.display} <Rich text={site.whatsapp.note} /></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Enquiry form + download -->
+  <section class="section bg-mist enquiry-section" aria-labelledby="form-title">
+    <div class="container-x enquiry-layout">
+      <div class="enquiry-aside">
+        <SectionHeading eyebrow={form.eyebrow} title={form.title} id="form-title">
+          <p class="enquiry-intro" data-reveal>{form.intro}</p>
+        </SectionHeading>
+
+        <div class="download on-dark" data-reveal>
+          <div class="pattern pattern-mashrabiya download-lattice" aria-hidden="true"></div>
+          <p class="eyebrow">{download.eyebrow}</p>
+          <p class="download-title">{download.title}</p>
+          <a class="btn btn-saffron download-btn" role="link" aria-disabled="true" tabindex="0">
+            <Icon name="download-minimalistic-linear" class="btn-icon" />
+            <Rich text={download.file} />
+          </a>
+          <p class="download-note">{download.note}</p>
+        </div>
+      </div>
+
+      <div class="form-card surface" data-reveal>
+        <form class="enquiry-form" data-enquiry-form novalidate method="post" action="#" aria-describedby="form-required-note">
+          <script type="application/json" data-form-config set:html={formConfig} />
+          <p id="form-required-note" class="sr-only">{form.intro}</p>
+          <div class="form-summary" data-form-summary role="alert" hidden></div>
+
+          <div class="form-grid">
+            {textFields.map((item) => {
+              const config = field(item.name);
+              const id = `field-${item.name}`;
+              return (
+                <div class:list={['form-row', { 'is-half': item.half }]}>
+                  <label class="field-label" for={id}>
+                    <span>{config.label}</span>
+                    <span class="field-hint">{config.required ? form.required : form.optional}</span>
+                  </label>
+                  <input
+                    class="field"
+                    id={id}
+                    name={item.name}
+                    type={item.type}
+                    autocomplete={config.autocomplete ?? 'off'}
+                    inputmode={'inputmode' in item ? item.inputmode : undefined}
+                    required={config.required}
+                    aria-required={config.required ? 'true' : undefined}
+                    aria-describedby={`${id}-error`}
+                  />
+                  <p class="field-error" id={`${id}-error`} data-error-for={item.name} hidden>
+                    <Icon name="danger-circle-linear" /><span data-error-text></span>
+                  </p>
+                </div>
+              );
+            })}
+
+            <div class="form-row is-half">
+              <label class="field-label" for="field-propertyType">
+                <span>{fields.propertyType.label}</span>
+                <span class="field-hint">{form.required}</span>
+              </label>
+              <select class="field" id="field-propertyType" name="propertyType" required aria-required="true" aria-describedby="field-propertyType-error">
+                <option value="">{fields.propertyType.placeholder}</option>
+                {fields.propertyType.options.map((option) => <option value={option}>{option}</option>)}
+              </select>
+              <p class="field-error" id="field-propertyType-error" data-error-for="propertyType" hidden>
+                <Icon name="danger-circle-linear" /><span data-error-text></span>
+              </p>
+            </div>
+
+            <div class="form-row is-half">
+              <label class="field-label" for="field-units">
+                <span>{fields.units.label}</span>
+                <span class="field-hint">{form.optional}</span>
+              </label>
+              <input class="field" id="field-units" name="units" type="text" inputmode="numeric" autocomplete="off" aria-describedby="field-units-error" />
+              <p class="field-error" id="field-units-error" data-error-for="units" hidden>
+                <Icon name="danger-circle-linear" /><span data-error-text></span>
+              </p>
+            </div>
+
+            <div class="form-row">
+              <label class="field-label" for="field-message">
+                <span>{fields.message.label}</span>
+                <span class="field-hint">{form.optional}</span>
+              </label>
+              <textarea class="field" id="field-message" name="message" rows="5"></textarea>
+            </div>
+          </div>
+
+          <button class="btn btn-deep form-submit" type="submit">
+            {form.submit}
+            <Icon name="arrow-right-linear" class="btn-icon" />
+          </button>
+        </form>
+
+        <div class="form-success" data-form-success hidden>
+          <span class="success-star ornament-star" aria-hidden="true"></span>
+          <h3 class="display-2 success-title" tabindex="-1" data-success-title>{form.success.title}</h3>
+          <p class="success-body">{form.success.body}</p>
+          <p class="success-note">{form.success.sampleNote}</p>
+          <button class="btn btn-outline" type="button" data-form-reset>{form.success.reset}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .offices-heading {
+    margin-bottom: clamp(3rem, 2rem + 3vw, 4.5rem);
+  }
+
+  .offices {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .offices {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .office {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+  }
+
+  .office-body {
+    display: grid;
+    gap: 1.5rem;
+    padding: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+  }
+
+  .office-entity {
+    color: var(--color-gulf);
+  }
+
+  .office-details {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .office-details dt,
+  .contact-strip dt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  .office-details dt :global(svg),
+  .contact-strip dt :global(svg) {
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    color: var(--color-saffron-deep);
+  }
+
+  .office-details dd {
+    margin-top: 0.375rem;
+  }
+
+  .office-details address {
+    font-style: normal;
+  }
+
+  .map {
+    position: relative;
+    min-block-size: 18rem;
+    margin: 0 0.75rem 0.75rem;
+    overflow: hidden;
+    border-radius: calc(var(--radius-lg) - 0.75rem);
+    background: var(--color-gulf-deep);
+  }
+
+  .map :global(.map-frame) {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    border: 0;
+  }
+
+  .map-facade {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--color-white);
+    --focus-ring: var(--color-saffron);
+  }
+
+  .map-pattern {
+    --pattern-opacity: 0.14;
+    --pattern-size: 80px;
+  }
+
+  .map-pin {
+    position: relative;
+    display: grid;
+    place-items: center;
+    inline-size: 3.5rem;
+    block-size: 3.5rem;
+    border-radius: 50% 50% 50% 0;
+    rotate: -45deg;
+    background: var(--color-saffron);
+    color: var(--color-gulf-ink);
+  }
+
+  .map-pin :global(svg) {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    rotate: 45deg;
+  }
+
+  .map-actions {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .map-actions .btn-gulf {
+    background: var(--color-white);
+    color: var(--color-gulf);
+  }
+
+  .map-actions .btn-gulf:hover {
+    background: var(--color-mist);
+  }
+
+  .map-external {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-block-size: 2.75rem;
+    font-weight: 650;
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .map-external :global(svg) {
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  .map-note {
+    position: relative;
+    max-inline-size: 30ch;
+    font-size: 0.8125rem;
+    color: var(--color-on-dark-muted);
+  }
+
+  .contact-strip {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (min-width: 48rem) {
+    .contact-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .contact-strip > div + div {
+      padding-left: 1.5rem;
+      border-left: 1px solid var(--color-line);
+    }
+  }
+
+  .contact-strip dd {
+    margin-top: 0.375rem;
+    font-weight: 600;
+    color: var(--color-gulf);
+  }
+
+  /* Enquiry ------------------------------------------------------------------ */
+  .enquiry-layout {
+    display: grid;
+    gap: 3rem;
+  }
+
+  @media (min-width: 64rem) {
+    .enquiry-layout {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 4.5rem;
+      align-items: start;
+    }
+
+    .enquiry-aside {
+      position: sticky;
+      top: 7.5rem;
+    }
+  }
+
+  .enquiry-aside {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .enquiry-intro {
+    color: var(--color-ink-muted);
+  }
+
+  .download {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    overflow: hidden;
+    isolation: isolate;
+    padding: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+    border-radius: var(--radius-lg);
+    background: var(--color-gulf);
+    box-shadow: var(--shadow-md);
+  }
+
+  .download-lattice {
+    --pattern-color: var(--color-white);
+    --pattern-opacity: 0.07;
+    z-index: -1;
+    --pattern-fade: linear-gradient(120deg, transparent 30%, #000);
+  }
+
+  .download-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .download-btn :global(.ph) {
+    background: transparent;
+    outline-color: var(--color-gulf-ink);
+    color: var(--color-gulf-ink);
+  }
+
+  .download-note {
+    font-size: 0.8125rem;
+    color: var(--color-on-dark-muted);
+  }
+
+  .form-card {
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    border-radius: var(--radius-lg);
+  }
+
+  .form-summary {
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+    font-weight: 650;
+  }
+
+  .form-grid {
+    display: grid;
+    gap: 1.5rem 1.25rem;
+  }
+
+  @media (min-width: 40rem) {
+    .form-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-row:not(.is-half) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .field-error :global(svg) {
+    flex: none;
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    margin-top: 0.0625rem;
+  }
+
+  .form-submit {
+    margin-top: 2rem;
+  }
+
+  .form-success {
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+    padding-block: 2rem;
+  }
+
+  .form-success:not([hidden]) {
+    animation: success-in 700ms var(--ease-expo) both;
+  }
+
+  @keyframes success-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .form-success:not([hidden]) {
+      animation: none;
+    }
+  }
+
+  .success-star {
+    inline-size: 3rem;
+    block-size: 3rem;
+  }
+
+  .success-title {
+    color: var(--color-gulf);
+    outline: none;
+  }
+
+  .success-body {
+    font-size: 1.125rem;
+  }
+
+  .success-note {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-mist);
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+</style>

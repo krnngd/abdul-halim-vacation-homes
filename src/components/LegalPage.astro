@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from './PageHeader.astro';
+import Rich from './Rich.astro';
+
+interface Props {
+  page: {
+    meta: { title: string; description: string };
+    eyebrow: string;
+    title: string;
+    body: string;
+  };
+}
+
+const { page } = Astro.props;
+---
+
+<Base title={page.meta.title} description={page.meta.description}>
+  <PageHeader eyebrow={page.eyebrow} title={page.title} />
+  <section class="section legal" aria-label={page.title}>
+    <div class="container-x">
+      <div class="legal-body surface" data-reveal>
+        <Rich as="p" text={page.body} />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal {
+    padding-top: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+
+  .legal-body {
+    max-inline-size: 48rem;
+    padding: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    border-radius: var(--radius-lg);
+    font-size: 1.125rem;
+  }
+</style>

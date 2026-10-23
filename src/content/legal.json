@@ -1,0 +1,31 @@
+{
+  "privacy": {
+    "meta": {
+      "title": "Privacy Policy | Abdul Halim Vacation Homes",
+      "description": "Privacy Policy of Abdul Halim Vacation Homes Rental L.L.C."
+    },
+    "eyebrow": "Legal",
+    "title": "Privacy Policy",
+    "body": "[Content to be provided]"
+  },
+  "terms": {
+    "meta": {
+      "title": "Terms of Use | Abdul Halim Vacation Homes",
+      "description": "Terms of Use of the Abdul Halim Vacation Homes Rental L.L.C website."
+    },
+    "eyebrow": "Legal",
+    "title": "Terms of Use",
+    "body": "[Content to be provided]"
+  },
+  "notFound": {
+    "meta": {
+      "title": "Page not found | Abdul Halim Vacation Homes",
+      "description": "The page you requested could not be found."
+    },
+    "eyebrow": "404",
+    "title": "This page could not be found",
+    "body": "The address may be mistyped, or the page may have moved.",
+    "home": { "label": "Return to the home page", "href": "/" },
+    "portfolio": { "label": "View our portfolio", "href": "/portfolio/" }
+  }
+}
